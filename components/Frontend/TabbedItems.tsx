@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs } from "flowbite-react";
-import { Activity, Microscope, Stethoscope, Syringe, X } from "lucide-react";
+import { Activity, Microscope, Stethoscope, Syringe } from "lucide-react";
 import ServiceList from "./Services/ServiceList";
 import LinkCards from "./Doctors/LinkCards";
 // import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
@@ -9,9 +9,21 @@ import LinkCards from "./Doctors/LinkCards";
 
 export default function TabbedItems() {
   const services = [
-    { title: "Telemedicina", image: "/doctor.jpg", slug: "telemedicina" },
-    { title: "Salud mental", image: "/doctor.jpg", slug: "telemedicina" },
-    { title: "Consulta licencias", image: "/doctor.jpg", slug: "telemedicina" },
+    {
+      title: "Telemedicina",
+      image: "/hospital-logo.webp",
+      slug: "telemedicina",
+    },
+    {
+      title: "Salud mental",
+      image: "/hospital-logo.webp",
+      slug: "telemedicina",
+    },
+    {
+      title: "Consulta licencias",
+      image: "/hospital-logo.webp",
+      slug: "telemedicina",
+    },
   ];
   const tabs = [
     {
