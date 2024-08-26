@@ -68,3 +68,10 @@
     min-height: 100vh;
   }
 }
+
+.linear-bg {
+  background: url("/login-bg.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
