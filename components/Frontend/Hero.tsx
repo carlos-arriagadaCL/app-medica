@@ -1,21 +1,33 @@
 import React, { useState } from "react";
 import SearchBar from "./SearchBar";
+import TransitionalText from "./TransitionalText";
+import { Ambulance } from "lucide-react";
 
 const Hero = () => {
+  const TEXTS = [
+    "Medico",
+    "Nutricionista",
+    "Dermatólogo",
+    "Cardiólogo",
+    "Traumatólogo",
+    "Psicólogo",
+  ];
   return (
-    <div className="bg-blue-950 mx-auto max-w-6x1">
-      <div className="relative pb-[110px] pt-[50px] dark:bg-dark lg:pt-[50px] mx-20">
+    <div className="bg-blue-950">
+      <div className="relative pb-[110px] pt-[50px] dark:bg-dark lg:pt-[50px] mx-auto max-w-6xl">
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 lg:w-5/12">
               <div className="hero-content">
-                <h1 className="mb-5 text-4xl font-bold !leading-[1.208] text-gray-50 dark:text-gray-50 sm:text-[42px] lg:text-[40px] xl:text-5xl">
-                  Kickstart Startup Website with TailGrids
+                <h1 className="mb-5 text-4xl font-bold !leading-[1.208] text-gray-50 dark:text-gray-50 sm:text-[42px] lg:text-[40px] xl:text-6xl flex flex-wrap items-center gap-3">
+                  <span>Agenda hora con un</span>{" "}
+                  <TransitionalText className="text-blue-500" TEXTS={TEXTS} />
+                  <br />
                 </h1>
                 <p className="mb-8 max-w-[480px] text-base text-gray-100 dark:text-gray-50-6">
-                  With TailGrids, business and students thrive together.
-                  Business can perfectly match their staffing to changing demand
-                  throughout the dayed.
+                  Escoge entre nuestras diversas especialidades médicas y
+                  servicios de salud. Ya sea para una consulta general, atención
+                  especializada o un chequeo preventivo, estamos aquí para ti.
                 </p>
                 {/* Barra de busqueda */}
                 <SearchBar />
@@ -26,7 +38,7 @@ const Hero = () => {
                       href="/#"
                       className="inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-center text-base font-medium text-white hover:bg-blue-700 lg:px-7"
                     >
-                      Get Started
+                      Consultar exámenes
                     </a>
                   </li>
                   <li>
@@ -35,38 +47,26 @@ const Hero = () => {
                       className="inline-flex items-center justify-center px-5 py-3 text-center text-base font-medium text-gray-50 hover:text-blue-500 dark:text-white"
                     >
                       <span className="mr-2">
-                        <svg
-                          width="24"
-                          height="25"
-                          viewBox="0 0 24 25"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle cx="12" cy="12.6152" r="12" fill="#3758F9" />
-                          <rect
-                            x="7.99893"
-                            y="14.979"
-                            width="8.18182"
-                            height="1.63636"
-                            fill="white"
-                          />
-                          <rect
-                            x="11.2717"
-                            y="7.61523"
-                            width="1.63636"
-                            height="4.09091"
-                            fill="white"
-                          />
-                          <path
-                            d="M12.0898 14.1606L14.9241 11.0925H9.25557L12.0898 14.1606Z"
-                            fill="white"
-                          />
-                        </svg>
+                        <Ambulance className="flex-shrink-0 h-5 w-5 text-blue-600" />
                       </span>
-                      Download App
+                      Pedir ambulancia
                     </a>
                   </li>
                 </ul>
+                <div className="py-4 pt-8 flex gap-4">
+                  <div className="flex flex-col items-center justify-center">
+                    <span className="font-bold text-gray-50">600</span>
+                    <span className="text-sm text-gray-400">
+                      Especialistas medicos
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center">
+                    <span className="font-bold text-gray-50">2000</span>
+                    <span className="text-sm text-gray-400">
+                      Pacientes atendidos
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="hidden px-4 lg:block lg:w-1/12"></div>
