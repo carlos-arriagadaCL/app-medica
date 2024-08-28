@@ -7,7 +7,7 @@ import { LoginInputProps } from "@/types/types";
 import { useForm } from "react-hook-form";
 import TextInput from "../FormInputs/TextInput";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 
