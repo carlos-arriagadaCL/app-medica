@@ -1,17 +1,13 @@
-## Getting Started
+## Iniciar el proyecto
 
-First, run the development server:
+Hay que tener las variables de entorno (archivo .env que está en el drive) en la carpeta del proyecto:
 
 ```bash {"id":"01J5XB7JNNKEYYAG75D9W2P556"}
+# Instalar dependencias
+npm install
+
+# Correr entorno de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Abrir [http://localhost:3000](http://localhost:3000) con el navegador para ver el proyecto.
