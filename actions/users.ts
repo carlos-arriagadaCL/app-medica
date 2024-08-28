@@ -69,3 +69,36 @@ export async function createUser(formData: RegisterInputProps) {
     };
   }
 }
+
+export async function getUserById(id: string) {
+  if (id) {
+    try {
+      const user = await prismaClient.user.findUnique({
+        where: {
+          id,
+        },
+      });
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export async function updateUserById(id: string) {
+  if (id) {
+    try {
+      const updateUser = await prismaClient.user.update({
+        where: {
+          id,
+        },
+        data: {
+          isVerfied: true,
+        },
+      });
+      return updateUser;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
