@@ -49,7 +49,7 @@ export async function createUser(formData: RegisterInputProps) {
     const message =
       "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
     const sendMail = await resend.emails.send({
-      from: "App Medica <contacto@appmedica.com>",
+      from: "App Medica <no-reply@app-medica.lat>",
       to: email,
       subject: "Verify Your Email Address",
       react: EmailTemplate({ firstName, token, linkText, message }),
