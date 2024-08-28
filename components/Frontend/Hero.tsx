@@ -74,7 +74,7 @@ const Hero = () => {
               <div className="lg:ml-auto lg:text-right">
                 <div className="relative z-10 inline-block pt-11 lg:pt-0">
                   <img
-                    src="https://cdn.tailgrids.com/1.0/assets/images/hero/hero-image-01.png"
+                    src="/doc-profile.webp"
                     alt="hero"
                     className="max-w-full lg:ml-auto"
                   />
