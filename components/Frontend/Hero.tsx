@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import TransitionalText from "./TransitionalText";
 import { Ambulance } from "lucide-react";
+import { CommandMenu } from "../command-menu";
 
 const Hero = () => {
   const TEXTS = [
@@ -30,7 +31,10 @@ const Hero = () => {
                   especializada o un chequeo preventivo, estamos aquí para ti.
                 </p>
                 {/* Barra de busqueda */}
-                <SearchBar />
+                {/* <SearchBar /> */}
+                <div className="w-full flex-1 md:flex-none">
+                  <CommandMenu />
+                </div>
                 {/* Botones */}
                 <ul className="flex flex-wrap items-center mt-6">
                   <li>
