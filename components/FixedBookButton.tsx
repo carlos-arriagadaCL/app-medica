@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 export default function FixedBookButton() {
   return (
-    <div className="fixed bottom-0 bg-white z-50 w-full shadow-2xl py-8 px-6 rounded-md  border border-gray-200 mx-auto">
+    <div className="fixed bottom-0 bg-white dark:bg-slate-700 z-50 w-full shadow-2xl py-8 px-6 mx-auto">
       <div className="max-w-4xl mx-auto gap-4 flex items-center justify-between">
         <div className="w-full">
           <p className="text-xl font-bold">$precio</p>

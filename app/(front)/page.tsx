@@ -13,7 +13,7 @@ export default function Home() {
       <TabbedSection />
       <DoctorsList />
       <DoctorsList
-        className="bg-white py-8 lg:py-24"
+        className="bg-blue-50 dark:bg-slate-900 py-8 lg:py-24"
         title="Visita medica"
         isInPerson={true}
       />

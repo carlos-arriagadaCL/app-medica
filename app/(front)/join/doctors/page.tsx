@@ -93,7 +93,7 @@ export default function page() {
       <section className="py-12 px-4">
         <div className="max-w-6xl gap-4 mx-auto grid grid-cols-1 md:grid-cols-2">
           <div className="">
-            <h2 className="sm:text-[3rem] text-[1.5rem] leading-[3.5rem]">
+            <h2 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               Unete a la plataforma medica en donde recibes{" "}
               <span className="text-blue-600 font-semibold">pago directo</span>{" "}
               por tu servicio.
@@ -105,7 +105,7 @@ export default function page() {
             <CustomButton
               title="Unirse al equipo medico"
               href="#"
-              className="bg-blue-600 hover:bg-blue-800"
+              className="bg-blue-600 dark:bg-slate-200 hover:bg-blue-800"
             />
             <div className="py-6">
               {features.map((feature, i) => {

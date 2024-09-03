@@ -8,10 +8,12 @@ const TabbedSection = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div className="mx-auto mb-12 max-w-5xl text-center lg:mb-20">
-              
-              <p className="text-base text-body-color dark:text-dark-6">
-                Escoge entre diferentes profesionales adaptados a tus
-                necesidades. Reserva en linea hoy.
+              <h2 className="mb-3 text-3xl font-bold leading-[1.2] text-dark dark:text-white sm:text-4xl md:text-[40px] scroll-m-20 pb-2 tracking-tight first:mt-0">
+                Busque a sus médicos por.
+              </h2>
+              <p className="leading-7 [&:not(:first-child)]:mt-6 text-base text-body-color dark:text-dark-6">
+                Elige entre miles de profesionales a precios asequibles todos
+                los días. Reserva en línea hoy mismo.
               </p>
             </div>
           </div>

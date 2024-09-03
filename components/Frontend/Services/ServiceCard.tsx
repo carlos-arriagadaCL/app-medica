@@ -7,7 +7,7 @@ export default function ServiceCard({ service }: { service: ServiceProps }) {
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="rounded-md bg-slate-400 hover:bg-slate-500 duration-300 flex gap-4 overflow-hidden"
+      className="rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 duration-300 flex gap-4 overflow-hidden"
     >
       <Image
         src={service.image}

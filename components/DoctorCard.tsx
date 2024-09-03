@@ -39,7 +39,7 @@ export default function DoctorCard({
     },
   ];
   return (
-    <div className="border border-gray-200 bg-white inline-flex flex-col py-8 px-6 rounded-md hover:border-gray-400 duration-300 transition-all">
+    <div className="border border-gray-200 dark:border-gray-600 bg-white dark:bg-slate-800 inline-flex flex-col py-8 px-6 rounded-md hover:border-gray-400 duration-300 transition-all">
       <Link href="/doctors/slug">
         <h2 className="uppercase font-bold text-2xl tracking-widest">
           Apellido, Nombre
@@ -67,13 +67,17 @@ export default function DoctorCard({
               <Stethoscope className="w-4 h-4 mr-2 flex-shrink-0" />
               <span>Medicina general</span>
             </p>
-            <p className="bg-green-200 py-3 px-6 uppercase">Disponible hoy</p>
+            <p className="bg-green-200 dark:text-slate-900 py-3 px-6 uppercase">
+              Disponible hoy
+            </p>
           </div>
         </div>
       </Link>
-      <div className="pt-6 border-t border-gray-400">
+      <div className="pt-6 border-t border-gray-400 dark:border-gray-600">
         <h3 className="flex gap-4 justify-between items-center">
-          <span className="text-gray-600">Martes 17 de Mayo</span>
+          <span className="text-gray-600 dark:text-gray-400">
+            Martes 17 de Mayo
+          </span>
           <span className="font-bold">
             Precio original $40.000 $30.000 con Medicina+
           </span>

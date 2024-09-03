@@ -4,12 +4,24 @@ import { Calendar } from "@/components/ui/calendar";
 
 export default function Availability() {
   const [bookDate, setBookDate] = React.useState<Date | undefined>(new Date());
-  const GMT = bookDate?.toString().split("GMT")[1].split(" ")[0];
-  const formattedDate = `${bookDate
-    ?.toString()
-    .split(" ")
-    .slice(0, 3)
-    .join(" ")} - GMT${GMT}`;
+  const formatDateInSpanish = (date: Date | undefined) => {
+    if (!date) return "";
+
+    // Formatear la fecha en español
+    const formattedDate = new Intl.DateTimeFormat("es-CL", {
+      weekday: "long", // día de la semana
+      day: "numeric", // día del mes
+      month: "long", // mes completo
+      year: "numeric", // año
+    }).format(date);
+
+    // Obtener el GMT
+    const GMT = date.toString().split("GMT")[1].split(" ")[0];
+
+    return `${formattedDate} - GMT${GMT}`;
+  };
+  const formattedDate = formatDateInSpanish(bookDate);
+
   const timeStamps = [
     {
       time: "8:30",

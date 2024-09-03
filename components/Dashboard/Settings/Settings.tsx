@@ -60,7 +60,11 @@ export default function Settings() {
         </div>
         {tabs.map((tab) => {
           return (
-            <TabsContent className="w-full" value={tab.value ?? "general"}>
+            <TabsContent
+              key={tab.value}
+              className="w-full"
+              value={tab.value ?? "general"}
+            >
               {tab.component}
             </TabsContent>
           );
