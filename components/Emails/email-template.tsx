@@ -39,7 +39,7 @@ export const EmailTemplate = ({
         />
 
         <Text style={title}>
-          <strong>@{firstName}</strong>, thank you for Joining Us
+          <strong>@{firstName}</strong>, gracias por unirte a nosotros
         </Text>
 
         <Section style={section}>
@@ -50,16 +50,16 @@ export const EmailTemplate = ({
 
           <Button style={button}>{token}</Button>
           <Text style={text}>
-            If you have any questions, feel free to reach out.
+            Si tiene alguna pregunta, no dude en contactarnos.
           </Text>
         </Section>
         <Text style={links}>
-          <Link style={link}>Your security audit log</Link> ・{" "}
-          <Link style={link}>Contact support</Link>
+          <Link style={link}>Su registro de auditoría de seguridad</Link> ・{" "}
+          <Link style={link}>Contactar con soporte técnico</Link>
         </Text>
 
         <Text style={footer}>
-          GitHub, Inc. ・88 Colin P Kelly Jr Street ・San Francisco, CA 94107
+          App-Medica, Inc. ・1234 Calle Falsa ・Santiago, RM
         </Text>
       </Container>
     </Body>

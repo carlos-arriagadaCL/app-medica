@@ -16,17 +16,19 @@ export default async function VerifyAccount({
   //Get a User from DB
   const user = await getUserById(id);
   const userToken = user?.token;
+  const role = user?.role;
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Card className="mx-auto max-w-md">
         <CardHeader>
-          <CardTitle className="text-xl">Verify Token</CardTitle>
+          <CardTitle className="text-xl">Verificar token</CardTitle>
           <CardDescription>
-            Please enter the 6-digit token sent to your email - {user?.email}
+            Por favor ingrese el token de 6 dígitos enviado a su correo
+            electrónico - {user?.email}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <VerifyTokenForm userToken={userToken} id={id} />
+          <VerifyTokenForm role={role} userToken={userToken} id={id} />
         </CardContent>
       </Card>
     </div>

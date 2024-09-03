@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/input-otp";
 import { updateUserById } from "@/actions/users";
 import SubmitButton from "../FormInputs/SubmitButton";
+import { UserRole } from "@prisma/client";
 
 const FormSchema = z.object({
   token: z.string().min(6, {
@@ -38,9 +39,11 @@ const FormSchema = z.object({
 export default function VerifyTokenForm({
   userToken,
   id,
+  role,
 }: {
   userToken: number | undefined;
   id: string;
+  role: UserRole | undefined;
 }) {
   const [loading, setLoading] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -63,7 +66,12 @@ export default function VerifyTokenForm({
         setLoading(false);
         // reset();
         toast.success("Account Verified");
-        router.push("/login");
+        if (role === "DOCTOR") {
+          router.push(`/onboarding/${id}`);
+        } else {
+          router.push("/login");
+        }
+        // OnBoarding Page
       } catch (error) {
         setLoading(false);
         console.log(error);
@@ -80,8 +88,8 @@ export default function VerifyTokenForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         {showNotification && (
           <Alert color="failure" icon={HiInformationCircle}>
-            <span className="font-medium">Wrong Token!</span> Please Check the
-            token and Enter again
+            <span className="font-medium">Error de token!</span> Por favor
+            verifique el token y vuelva a ingresar
           </Alert>
         )}
         <FormField
@@ -89,7 +97,7 @@ export default function VerifyTokenForm({
           name="token"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enter Token Here</FormLabel>
+              <FormLabel>Ingrese el token aquí</FormLabel>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>

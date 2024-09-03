@@ -12,7 +12,13 @@ import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-export default function RegisterWithBg({ role = "USER" }: { role?: UserRole }) {
+export default function RegisterWithBg({
+  role = "USER",
+  plan = "",
+}: {
+  role?: string | string[] | undefined;
+  plan?: string | string[] | undefined;
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -24,8 +30,8 @@ export default function RegisterWithBg({ role = "USER" }: { role?: UserRole }) {
 
   async function onSubmit(data: RegisterInputProps) {
     setIsLoading(true);
-
     data.role = role;
+    data.plan = plan;
     try {
       const user = await createUser(data);
       if (user && user.status === 200) {

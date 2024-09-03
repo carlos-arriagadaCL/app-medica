@@ -8,7 +8,7 @@ import EmailTemplate from "@/components/Emails/email-template";
 
 export async function createUser(formData: RegisterInputProps) {
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const { fullName, email, role, phone, password } = formData;
+  const { fullName, email, role, phone, password, plan } = formData;
   try {
     const existingUser = await prismaClient.user.findUnique({
       where: {
@@ -38,6 +38,7 @@ export async function createUser(formData: RegisterInputProps) {
         phone,
         password: hashedPassword,
         role,
+        plan,
         token: userToken,
       },
     });
@@ -45,13 +46,13 @@ export async function createUser(formData: RegisterInputProps) {
     const token = newUser.token;
     const userId = newUser.id;
     const firstName = newUser.name.split(" ")[0];
-    const linkText = "Verify your Account ";
+    const linkText = "Verificar su cuenta ";
     const message =
-      "Thank you for registering with Gecko. To complete your registration and verify your email address, please enter the following 6-digit verification code on our website :";
+      "Gracias por registrarte en app-medica. Para completar su registro y verificar su dirección de correo electrónico, ingrese el siguiente código de verificación de 6 dígitos en nuestro sitio web: ";
     const sendMail = await resend.emails.send({
       from: "App Medica <no-reply@app-medica.lat>",
       to: email,
-      subject: "Verify Your Email Address",
+      subject: "Verifique su dirección de correo electrónico",
       react: EmailTemplate({ firstName, token, linkText, message }),
     });
     console.log(token);
