@@ -6,16 +6,12 @@ import { useForm } from "react-hook-form";
 import TextInput from "../FormInputs/TextInput";
 import { useRouter } from "next/navigation";
 import { DatePickerInput } from "../FormInputs/DatePickerInput";
-import RadioInput from "../FormInputs/RadioInput";
+import { TextAreaInput } from "../FormInputs/TextAreaInput";
 import toast from "react-hot-toast";
+import ImageInput from "../FormInputs/ImageInput";
+import { StepFormProps } from "./BioDataForm";
 
-export type StepFormProps = {
-  page: string;
-  title: string;
-  description: string;
-};
-
-export default function BioDataForm({
+export default function ProfileInfoForm({
   page,
   title,
   description,
@@ -67,42 +63,31 @@ export default function BioDataForm({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
-            label="Nombre"
+            label="Licencia medica"
             register={register}
-            name="firstName"
+            name="medicalLicense"
             errors={errors}
-            placeholder="ej.: Juan"
-            className="col-span-full sm:col-span-1"
-          />
-          <TextInput
-            label="Apellido"
-            register={register}
-            name="lastName"
-            errors={errors}
-            placeholder="ej.: Perez"
-            className="col-span-full sm:col-span-1"
-          />
-          <TextInput
-            label="Correo electronico"
-            register={register}
-            name="email"
-            type="email"
-            errors={errors}
-            placeholder="ej.: micorreo@mail.com"
+            placeholder="Ingrese licencia medica"
             className="col-span-full sm:col-span-1"
           />
           <DatePickerInput
-            date={dob}
-            setDate={setDOB}
+            date={expiry}
+            setDate={setExpiry}
             className="col-span-full sm:col-span-1"
-            title="Fecha de nacimiento"
+            title="Expiracion licencia medica"
           />
-          <RadioInput
-            title="Sexo"
-            name="gender"
-            radioOptions={genderOptions}
+          <TextAreaInput
+            label="Biografia"
             register={register}
+            name="bio"
             errors={errors}
+            placeholder="Ingrese biografia"
+          />
+          <ImageInput
+            label="Professional Profile Image"
+            imageUrl={profileImage}
+            setImageUrl={setProfileImage}
+            endpoint="doctorProfileImage"
           />
         </div>
         <div className="mt-8 flex justify-center items-center">

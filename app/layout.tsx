@@ -4,8 +4,12 @@ import "./globals.css";
 import Providers from "@/components/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/config/site";
-
 const inter = Inter({ subsets: ["latin"] });
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+import { ourFileRouter } from "./api/uploadthing/core";
+
+// import { ourFileRouter } from "~/app/api/uploadthing/core";
 
 export const metadata: Metadata = {
   title: {
@@ -67,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
