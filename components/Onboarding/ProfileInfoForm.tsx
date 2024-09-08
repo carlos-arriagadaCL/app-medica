@@ -1,7 +1,7 @@
 "use client";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { useState } from "react";
-import { BioDataFormProps } from "@/types/types";
+import { ProfileFormProps } from "@/types/types";
 import { useForm } from "react-hook-form";
 import TextInput from "../FormInputs/TextInput";
 import { useRouter } from "next/navigation";
@@ -10,47 +10,73 @@ import { TextAreaInput } from "../FormInputs/TextAreaInput";
 import toast from "react-hot-toast";
 import ImageInput from "../FormInputs/ImageInput";
 import { StepFormProps } from "./BioDataForm";
+import { useOnBoardingContext } from "@/context/context";
+import { updateDoctorProfile } from "@/actions/onboarding";
+import { profile } from "console";
 
 export default function ProfileInfoForm({
   page,
   title,
   description,
+  nextPage,
+  formId,
+  userId,
 }: StepFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [dob, setDOB] = useState<Date>();
-  const [expiry, setExpiry] = useState<Date>();
-  const [profileImage, setProfileImage] = useState("");
-  const genderOptions = [
-    {
-      label: "Hombre",
-      value: "male",
-    },
-    {
-      label: "Mujer",
-      value: "female",
-    },
-  ];
+
+  const { profileData, savedDBData, setProfileData } = useOnBoardingContext();
+  const initialExpiryDate =
+    profileData.medicalLicenseExpiry || savedDBData.medicalLicenseExpiry;
+  const initialProfileImage =
+    profileData.profilePicture || savedDBData.profilePicture;
+  const [expiry, setExpiry] = useState<Date>(initialExpiryDate);
+  const [profileImage, setProfileImage] = useState(initialProfileImage);
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<BioDataFormProps>();
+  } = useForm<ProfileFormProps>({
+    defaultValues: {
+      bio: profileData.bio || savedDBData.bio,
+      page: profileData.page || savedDBData.page,
+      medicalLicense: profileData.medicalLicense || savedDBData.medicalLicense,
+      medicalLicenseExpiry:
+        profileData.medicalLicenseExpiry || savedDBData.medicalLicenseExpiry,
+      yearsOfExperience:
+        profileData.yearsOfExperience || savedDBData.yearsOfExperience,
+    },
+  });
   const router = useRouter();
-  async function onSubmit(data: BioDataFormProps) {
-    if (!dob) {
-      toast.error("Seleccione fecha de nacimiento");
-      return;
-    }
+  async function onSubmit(data: ProfileFormProps) {
+    setIsLoading(true);
     if (!expiry) {
-      toast.error("Seleccione fecha de expiracion licencia");
+      toast.error(
+        "Por favor ingrese la fecha de expiracion de la licencia medica"
+      );
+      setIsLoading(false);
       return;
     }
-    data.dob = dob;
     data.medicalLicenseExpiry = expiry;
     data.page = page;
+    data.yearsOfExperience = Number(data.yearsOfExperience);
+    data.profilePicture = profileImage;
     console.log(data);
-    // setIsLoading(true);
+    try {
+      const res = await updateDoctorProfile(formId, data);
+      setProfileData(data);
+      if (res?.status === 201) {
+        setIsLoading(false);
+        toast.success("Education Info Updated Successfully");
+        router.push(`/onboarding/${userId}?page=${nextPage}`);
+      } else {
+        setIsLoading(false);
+        toast.error("Algo salio mal");
+      }
+    } catch (error) {
+      setIsLoading(false);
+    }
   }
   return (
     <div className="w-full">
@@ -68,6 +94,14 @@ export default function ProfileInfoForm({
             name="medicalLicense"
             errors={errors}
             placeholder="Ingrese licencia medica"
+          />
+          <TextInput
+            label="Años de experiencia"
+            register={register}
+            name="yearsExperience"
+            type="number"
+            errors={errors}
+            placeholder="Ingrese años de experiencia"
             className="col-span-full sm:col-span-1"
           />
           <DatePickerInput

@@ -8,22 +8,40 @@ import { useRouter } from "next/navigation";
 import { DatePickerInput } from "../FormInputs/DatePickerInput";
 import RadioInput from "../FormInputs/RadioInput";
 import toast from "react-hot-toast";
+import { generateTrackingNumber } from "@/lib/generateTracking";
+import { createDoctorProfile, updateDoctorProfile } from "@/actions/onboarding";
+import { set } from "date-fns";
+import { useOnBoardingContext } from "@/context/context";
 
 export type StepFormProps = {
   page: string;
   title: string;
   description: string;
+  userId?: string;
+  nextPage?: string;
+  formId?: string;
 };
 
 export default function BioDataForm({
   page,
   title,
   description,
+  nextPage,
+  formId,
+  userId,
 }: StepFormProps) {
+  // GET CONTEXT DATA
+  const {
+    trackingNumber,
+    setTrackingNumber,
+    doctorProfileId,
+    setDoctorProfileId,
+  } = useOnBoardingContext();
   const [isLoading, setIsLoading] = useState(false);
-  const [dob, setDOB] = useState<Date>();
-  const [expiry, setExpiry] = useState<Date>();
-  const [profileImage, setProfileImage] = useState("");
+  const { bioData, savedDBData, setBioData } = useOnBoardingContext();
+  const initialDOB = bioData.dob || savedDBData.dob;
+  const [dob, setDOB] = useState<Date>(initialDOB);
+
   const genderOptions = [
     {
       label: "Hombre",
@@ -39,22 +57,76 @@ export default function BioDataForm({
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<BioDataFormProps>();
+  } = useForm<BioDataFormProps>({
+    defaultValues: {
+      firstName: bioData.firstName || savedDBData.firstName,
+      lastName: bioData.lastName || savedDBData.lastName,
+      rut: bioData.rut || savedDBData.rut,
+      dob: bioData.dob || savedDBData.dob,
+      gender: bioData.gender || savedDBData.gender,
+      page: bioData.page || savedDBData.page,
+      userId: bioData.userId || savedDBData.userId,
+      trackingNumber: bioData.trackingNumber || savedDBData.trackingNumber,
+    },
+  });
   const router = useRouter();
   async function onSubmit(data: BioDataFormProps) {
+    setIsLoading(true);
     if (!dob) {
       toast.error("Seleccione fecha de nacimiento");
+      setIsLoading(false);
       return;
     }
-    if (!expiry) {
-      toast.error("Seleccione fecha de expiracion licencia");
-      return;
-    }
+    data.userId = userId as string;
     data.dob = dob;
-    data.medicalLicenseExpiry = expiry;
+    data.trackingNumber = generateTrackingNumber();
+
     data.page = page;
     console.log(data);
-    // setIsLoading(true);
+    try {
+      if (formId) {
+        const res = await updateDoctorProfile(formId, data);
+        if (res && res.status === 201) {
+          setIsLoading(false);
+          toast.success("Bio Data actualizado con exito");
+          setTrackingNumber(res.data?.trackingNumber ?? "");
+          setDoctorProfileId(res.data?.id ?? "");
+
+          router.push(`/onboarding/${userId}?page=${nextPage}`);
+        } else {
+          setIsLoading(false);
+          toast.error("Error al crear perfil de doctor");
+        }
+      } else {
+        const res = await createDoctorProfile(data);
+        setBioData(data);
+        if (res.status === 201) {
+          setIsLoading(false);
+          toast.success("Perfil de Doctor creado con exito");
+          setTrackingNumber(res.data?.trackingNumber ?? "");
+          setDoctorProfileId(res.data?.id ?? "");
+
+          // const savedData: BioDataFormProps = {
+          //   firstName: data?.firstName ?? "",
+          //   lastName: data?.lastName ?? "",
+          //   rut: data?.rut ?? "",
+          //   dob: data?.dob!,
+          //   gender: data?.gender ?? "",
+          //   page: data?.page ?? "",
+          //   userId: data?.userId,
+          //   trackingNumber: data?.trackingNumber ?? "",
+          // };
+          // setInitialData(savedData);
+          router.push(`/onboarding/${userId}?page=${nextPage}`);
+        } else {
+          setIsLoading(false);
+          toast.error("Error al crear perfil de doctor");
+        }
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
   }
   return (
     <div className="w-full">
@@ -83,12 +155,11 @@ export default function BioDataForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
-            label="Correo electronico"
+            label="Rut"
             register={register}
-            name="email"
-            type="email"
+            name="rut"
             errors={errors}
-            placeholder="ej.: micorreo@mail.com"
+            placeholder="ej.: 12345678-9"
             className="col-span-full sm:col-span-1"
           />
           <DatePickerInput

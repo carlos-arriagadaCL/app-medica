@@ -1,19 +1,18 @@
- 
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
- 
+
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
- 
+
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
- 
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
@@ -27,12 +26,12 @@ model Account {
   scope             String?
   id_token          String? @db.String
   session_state     String?
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
+
   @@unique([provider, providerAccountId])
 }
- 
+
 model Session {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
@@ -40,58 +39,77 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
- 
+
 enum UserRole {
   USER
   ADMIN
   DOCTOR
 }
- 
+
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
   name          String
-  email         String    @unique
+  email         String         @unique
   phone         String
   emailVerified DateTime?
   image         String?
-  role          UserRole  @default(USER)
+  role          UserRole       @default(USER)
   plan          String?
   password      String
   accounts      Account[]
   sessions      Session[]
-  isVerfied     Boolean   @default(false)
+  doctorProfile DoctorProfile?
+  isVerfied     Boolean        @default(false)
   token         Int
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
-// model Category {
-//   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-//   title       String
-//   slug        String    @unique
-//   imageUrl    String?
-//   demoLink    String?
-//   description String?
-//   products    Product[]
- 
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
-// }
- 
-// model Product {
-//   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-//   title         String
-//   slug          String   @unique
-//   price         Float?
-//   qty           Int?
-//   imageUrl      String?
-//   productImages String[]
-//   features String[]
-//   description   String?
-//   categoryId    String   @db.ObjectId
-//   category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
- 
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime? @updatedAt
-// }
- 
+model DoctorProfile {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String    @unique @db.ObjectId
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  trackingNumber String    @unique
+  firstName      String
+  lastName       String
+  rut            String
+  dob            DateTime?
+  gender         String
+  page           String
+
+  profilePicture       String?
+  bio                  String?
+  medicalLicense       String?
+  medicalLicenseExpiry DateTime?
+  yearsOfExperience    Int?
+
+  email   String?
+  phone   String?
+  country String?
+  city    String?
+  state   String?
+
+  medicalSchool         String?
+  graduationYear        String?
+  primarySpecialization String?
+  otherSpecializations  String[]
+  boardCertifications   String[]
+
+  hospitalName             String?
+  hospitalAddress          String?
+  hospitalContactNumber    String?
+  hospitalEmailAddress     String?
+  hospitalWebsite          String?
+  hospitalHoursOfOperation Int?
+  servicesOffered          String[]
+  insuranceAccepted        String?
+  languagesSpoken          String[]
+
+  educationHistory String?
+  research         String?
+  accomplishments  String?
+  additionalDocs   String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

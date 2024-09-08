@@ -85,13 +85,13 @@ export default function VerifyTokenForm({
 
   return (
     <Form {...form}>
+      {showNotification && (
+        <Alert color="failure" icon={HiInformationCircle}>
+          <span className="font-medium">Error de token!</span> Por favor
+          verifique el token y vuelva a ingresar
+        </Alert>
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        {showNotification && (
-          <Alert color="failure" icon={HiInformationCircle}>
-            <span className="font-medium">Error de token!</span> Por favor
-            verifique el token y vuelva a ingresar
-          </Alert>
-        )}
         <FormField
           control={form.control}
           name="token"

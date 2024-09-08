@@ -24,29 +24,29 @@ export default function page() {
       title: "Empieza a ofrecer servicio",
       description:
         "Aplica para unirte a nuestra red de proveedores de la salud.",
-      link: "/",
-      linkTitle: "Aplicar a un puesto",
+      link: "/register?role=DOCTOR&plan=free",
+      linkTitle: "Empieza a ofrecer servicio",
     },
     {
       title: "Reanuda un proceso de aplicacion",
       description:
         "Aplica para unirte a nuestra red de proveedores de la salud.",
-      link: "/",
-      linkTitle: "Aplicar a un puesto",
+      link: "/onboarding/resume",
+      linkTitle: "Reanuda un proceso de aplicacion",
     },
     {
       title: "Agenda una video-llamada",
       description:
         "Aplica para unirte a nuestra red de proveedores de la salud.",
       link: "/",
-      linkTitle: "Aplicar a un puesto",
+      linkTitle: "Agenda una video-llamada",
     },
     {
       title: "Consulta el estado de tu aplicacion",
       description:
         "Aplica para unirte a nuestra red de proveedores de la salud.",
       link: "/",
-      linkTitle: "Aplicar a un puesto",
+      linkTitle: "Consulta el estado de tu aplicacion",
     },
   ];
   const faqs: FAQItem[] = [

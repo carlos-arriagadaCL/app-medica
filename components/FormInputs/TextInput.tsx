@@ -13,6 +13,7 @@ type TextInputProps = {
   page?: string;
   placeholder?: string;
   className?: string;
+  isRequired?: boolean;
 };
 
 export default function TextInput({
@@ -24,6 +25,7 @@ export default function TextInput({
   placeholder,
   page,
   className = "col-span-full",
+  isRequired = true,
 }: TextInputProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -42,14 +44,14 @@ export default function TextInput({
       )}
 
       <Input
-        {...register(`${name}`, { required: true })}
+        {...register(`${name}`, { required: isRequired })}
         id={`${name}`}
         name={`${name}`}
         type={type}
         autoComplete="name"
-        placeholder={placeholder}
+        placeholder={placeholder ? placeholder : ""}
       />
-      {errors[`${name}`] && (
+      {errors[`${name}`] && isRequired && (
         <span className="text-red-600 text-sm">Ingrese su {`${label}`}</span>
       )}
     </div>

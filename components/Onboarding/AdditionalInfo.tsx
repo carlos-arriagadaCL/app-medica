@@ -1,16 +1,17 @@
 "use client";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { useState } from "react";
-import { ContactFormProps } from "@/types/types";
+import { AdditionalFormProps } from "@/types/types";
 import { useForm } from "react-hook-form";
-import TextInput from "../FormInputs/TextInput";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { TextAreaInput } from "../FormInputs/TextAreaInput";
+import MultipleFileUpload, { File } from "../FormInputs/MultipleFileUpload";
 import { StepFormProps } from "./BioDataForm";
 import { updateDoctorProfile } from "@/actions/onboarding";
 import { useOnBoardingContext } from "@/context/context";
 
-export default function ContactInfo({
+export default function AdditionalInfo({
   page,
   title,
   description,
@@ -19,34 +20,41 @@ export default function ContactInfo({
   userId,
 }: StepFormProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const { contactData, savedDBData, setContactData } = useOnBoardingContext();
+  const { additionalData, savedDBData, setAdditionalData } =
+    useOnBoardingContext();
+  const initialDocs =
+    additionalData.additionalDocs || savedDBData.additionalDocs;
+  const [additionalDocs, setAdditionalDocs] = useState<File[]>(initialDocs);
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<ContactFormProps>({
+  } = useForm<AdditionalFormProps>({
     defaultValues: {
-      email: contactData.email || savedDBData.email,
-      phone: contactData.phone || savedDBData.phone,
-      country: contactData.country || savedDBData.country,
-      city: contactData.city || savedDBData.city,
-      state: contactData.state || savedDBData.state,
-      page: contactData.page || savedDBData.page,
+      educationHistory:
+        additionalData.educationHistory || savedDBData.educationHistory,
+      research: additionalData.research || savedDBData.research,
+      accomplishments:
+        additionalData.accomplishments || savedDBData.accomplishments,
+      page: additionalData.page || savedDBData.page,
     },
   });
   const router = useRouter();
-  async function onSubmit(data: ContactFormProps) {
+  async function onSubmit(data: AdditionalFormProps) {
     setIsLoading(true);
     data.page = page;
+    data.additionalDocs = additionalDocs.map((doc) => doc.url);
     console.log(data);
     try {
       const res = await updateDoctorProfile(formId, data);
-      setContactData(data);
+      setAdditionalData(data);
       if (res?.status === 201) {
         setIsLoading(false);
-        toast.success("Contact Info Updated Successfully");
+
+        toast.success("Profile Completed Successfully");
+
         router.push(`/onboarding/${userId}?page=${nextPage}`);
       } else {
         setIsLoading(false);
@@ -66,46 +74,32 @@ export default function ContactInfo({
       </div>
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
-          <TextInput
-            label="Correo electronico"
+          <TextAreaInput
+            label="Education History"
             register={register}
-            name="email"
-            type="email"
+            name="educationHistory"
             errors={errors}
-            placeholder="ej.: micorreo@mail.com"
-            className="col-span-full"
+            placeholder="Enter your education history"
           />
-          <TextInput
-            label="Celular"
+          <TextAreaInput
+            label="Published Works or Research"
             register={register}
-            name="phone"
+            name="research"
             errors={errors}
-            placeholder="+56 9 1234 5678"
-            className="col-span-full sm:col-span-1"
+            placeholder="Enter your published works or research"
           />
-          <TextInput
-            label="Pais"
+          <TextAreaInput
+            label="Any Special Accomplishments or Awards"
             register={register}
-            name="country"
+            name="accomplishments"
             errors={errors}
-            placeholder="Ingrese su pais"
-            className="col-span-full sm:col-span-1"
+            placeholder="Enter any special accomplishments or awards"
           />
-          <TextInput
-            label="Ciudad"
-            register={register}
-            name="city"
-            errors={errors}
-            placeholder="Ingrese su ciudad"
-            className="col-span-full sm:col-span-1"
-          />
-          <TextInput
-            label="Comuna"
-            register={register}
-            name="state"
-            errors={errors}
-            placeholder="Ingrese su comuna"
-            className="col-span-full sm:col-span-1"
+          <MultipleFileUpload
+            label="Any Additional Documents (CV, Medical Certifications, etc.) Upload"
+            files={additionalDocs}
+            setFiles={setAdditionalDocs}
+            endpoint="additionalDocs"
           />
         </div>
         <div className="mt-8 flex justify-center items-center">
