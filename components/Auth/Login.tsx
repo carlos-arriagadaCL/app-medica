@@ -46,7 +46,7 @@ export default function LoginFormWithBg() {
         reset();
         setIsLoading(false);
         toast.success("Login Successful");
-        router.push("/dashboard");
+        router.push(`/onboarding/66d5aed253fd941b1fe8e0dc`);
       }
     } catch (error) {
       setIsLoading(false);
@@ -59,19 +59,21 @@ export default function LoginFormWithBg() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
+            <h1 className="text-3xl font-bold">Iniciar sesión</h1>
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account
+              Ingrese su correo electrónico a continuación para iniciar sesión
+              en su cuenta
             </p>
           </div>
           <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
             {showNotification && (
               <Alert color="failure" icon={HiInformationCircle}>
-                <span className="font-medium">Sign-in error!</span> Please Check
-                your credentials
+                <span className="font-medium">¡Error de inicio de sesión!</span>{" "}
+                Por favor verifique sus credenciales
               </Alert>
             )}
             <TextInput
+              id="email"
               label="Correo electronico"
               register={register}
               name="email"
@@ -80,6 +82,7 @@ export default function LoginFormWithBg() {
               placeholder="ej.: micorreo@mail.com"
             />
             <TextInput
+              id="password"
               label="Contraseña"
               register={register}
               page="login"
@@ -89,18 +92,19 @@ export default function LoginFormWithBg() {
               placeholder="********"
             />
             <SubmitButton
+              id="loginSubmitButton"
               title="Iniciar sesion"
               isLoading={isLoading}
               loadingTitle="Iniciando sesion por favor espere..."
             />
             <Button variant="outline" className="w-full">
-              Login with Google
+              Iniciar sesión con Google
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="underline">
-              Sign up
+            ¿No tienes una cuenta?{" "}
+            <Link id="signup-form" href="/register" className="underline">
+              Registrate
             </Link>
           </div>
         </div>

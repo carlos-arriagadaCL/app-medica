@@ -33,7 +33,7 @@ export default function ImageInput({
             className="flex space-x-2 bg-slate-900 rounded-md shadow text-slate-50 py-2 px-4"
           >
             <Pencil className="w-5 h-5" />
-            <span>Change Image</span>
+            <span>Cambiar imagen</span>
           </button>
         )}
       </div>
@@ -50,11 +50,12 @@ export default function ImageInput({
           endpoint={`${endpoint}` as any}
           onClientUploadComplete={(res: any) => {
             setImageUrl(res[0].url);
-            toast.success("Image uploaded successfully");
+            toast.success("Imagen cargada exitosamente");
           }}
           onUploadError={(error: any) => {
-            toast.error("Image Upload Failed, Try Again");
+            toast.error("Error al cargar la imagen, inténtalo de nuevo");
           }}
+          
         />
       )}
     </div>

@@ -27,12 +27,6 @@ const FormSchema = z.object({
     message: "TrackingNumber must be at least 10 characters.",
   }),
 });
-const form = useForm<z.infer<typeof FormSchema>>({
-  resolver: zodResolver(FormSchema),
-  defaultValues: {
-    trackingNumber: "",
-  },
-});
 
 export default function TrackingForm() {
   const { setSavedDBData } = useOnBoardingContext();
@@ -40,6 +34,12 @@ export default function TrackingForm() {
   const [showNotification, setShowNotification] = useState(false);
 
   const router = useRouter();
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      trackingNumber: "",
+    },
+  });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);

@@ -44,7 +44,7 @@ export default function MultipleFileUpload({
             className="flex space-x-2 bg-slate-900 rounded-md shadow text-slate-50 py-2 px-4"
           >
             <Pencil className="w-5 h-5" />
-            <span>Change Files</span>
+            <span>Cambiar archivos</span>
           </button>
         )}
       </div>

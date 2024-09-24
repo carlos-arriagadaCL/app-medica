@@ -12,7 +12,6 @@ import ImageInput from "../FormInputs/ImageInput";
 import { StepFormProps } from "./BioDataForm";
 import { useOnBoardingContext } from "@/context/context";
 import { updateDoctorProfile } from "@/actions/onboarding";
-import { profile } from "console";
 
 export default function ProfileInfoForm({
   page,
@@ -89,6 +88,7 @@ export default function ProfileInfoForm({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
+            id="medicalLicense"
             label="Licencia medica"
             register={register}
             name="medicalLicense"
@@ -96,6 +96,7 @@ export default function ProfileInfoForm({
             placeholder="Ingrese licencia medica"
           />
           <TextInput
+            id="yearsExperience"
             label="Años de experiencia"
             register={register}
             name="yearsExperience"
@@ -111,14 +112,14 @@ export default function ProfileInfoForm({
             title="Expiracion licencia medica"
           />
           <TextAreaInput
-            label="Biografia"
+            label="Resumen profesional"
             register={register}
             name="bio"
             errors={errors}
-            placeholder="Ingrese biografia"
+            placeholder="Escriba un resumen profesional"
           />
           <ImageInput
-            label="Professional Profile Image"
+            label="Imagen de perfil profesional"
             imageUrl={profileImage}
             setImageUrl={setProfileImage}
             endpoint="doctorProfileImage"
@@ -126,6 +127,7 @@ export default function ProfileInfoForm({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="profileInfoSubmitButton"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

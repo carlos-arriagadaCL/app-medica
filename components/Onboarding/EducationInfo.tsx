@@ -97,15 +97,17 @@ export default function EducationInfo({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
-            label="Medical School"
+            id="medicalSchool"
+            label="Universidad"
             register={register}
             name="medicalSchool"
             errors={errors}
-            placeholder="Ingrese colegio medico"
+            placeholder="Ingrese su casa de estudio"
             className="col-span-full"
           />
           <TextInput
-            label="Graduation Year"
+            id="graduationYear"
+            label="Año de graduacion"
             register={register}
             type="number"
             name="graduationYear"
@@ -114,7 +116,7 @@ export default function EducationInfo({
             className="col-span-full sm:col-span-1"
           />
           <SelectInput
-            label="Select your primary Specializations"
+            label="Seleccione sus principales especializaciones"
             register={register}
             name="specialization"
             className="col-span-full sm:col-span-1"
@@ -126,7 +128,7 @@ export default function EducationInfo({
             itemTitle="Otras especialidades"
           />
           <MultipleFileUpload
-            label="Upload your Academic Documents (Max of 4 docs)"
+            label="Sube tus Documentos Académicos (Máximo de 4 documentos)"
             files={docs}
             setFiles={setDocs}
             endpoint="doctorProfessionDocs"
@@ -134,6 +136,7 @@ export default function EducationInfo({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="educationInfoSubmitButton"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

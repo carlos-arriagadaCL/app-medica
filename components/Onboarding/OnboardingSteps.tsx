@@ -36,8 +36,8 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "profile",
       component: (
         <ProfileInfoForm
-          title="Profile Information"
-          description="Please fill in your profile Info"
+          title="Información de perfil"
+          description="Por favor complete la información de su perfil"
           page={page}
           nextPage="contact"
           formId={doctorProfileId}
@@ -50,8 +50,8 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "contact",
       component: (
         <ContactInfo
-          title="Contact Information"
-          description="Please fill in your contact Info"
+          title="Información del contacto"
+          description="Por favor complete su información de contacto"
           page={page}
           nextPage="education"
           formId={doctorProfileId}
@@ -64,8 +64,8 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "education",
       component: (
         <EducationInfo
-          title="Education Information"
-          description="Please fill in your education Info"
+          title="Información educativa"
+          description="Por favor complete su información educativa"
           page={page}
           nextPage="hospital"
           formId={doctorProfileId}
@@ -78,8 +78,8 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "hospital",
       component: (
         <HospitalInfo
-          title="Hospital Information"
-          description="Please fill in your hospital Info"
+          title="Información hospitalaria"
+          description="Por favor complete la información de su hospital"
           page={page}
           nextPage="additional"
           formId={doctorProfileId}
@@ -92,8 +92,8 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "additional",
       component: (
         <AdditionalInfo
-          title="Additional Information"
-          description="Please fill in your additional Info"
+          title="Información adicional"
+          description="Por favor complete su información adicional"
           page={page}
           nextPage="final"
           formId={doctorProfileId}

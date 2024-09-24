@@ -46,6 +46,8 @@ export default function RegisterWithBg({
       }
     } catch (error) {
       console.log(error);
+      toast.error("Hubo un problema al crear la cuenta");
+      setIsLoading(false);
     }
   }
   return (
@@ -53,13 +55,14 @@ export default function RegisterWithBg({
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Sign Up</h1>
+            <h1 className="text-3xl font-bold">Registrarse</h1>
             <p className="text-balance text-muted-foreground">
-              Enter your information below to create an account
+              Ingrese su información a continuación para crear una cuenta
             </p>
           </div>
           <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
             <TextInput
+              id="fullName"
               label="Nombre Completo"
               register={register}
               name="fullName"
@@ -67,6 +70,7 @@ export default function RegisterWithBg({
               placeholder="ej.: Juan Perez"
             />
             <TextInput
+              id="email"
               label="Correo electronico"
               register={register}
               name="email"
@@ -75,13 +79,16 @@ export default function RegisterWithBg({
               placeholder="ej.: micorreo@mail.com"
             />
             <TextInput
+              id="phone"
               label="Celular"
               register={register}
               name="phone"
               type="tel"
               errors={errors}
+              placeholder="ej.: +56 9 1234 5678"
             />
             <TextInput
+              id="password"
               label="Contraseña"
               register={register}
               name="password"
@@ -90,18 +97,19 @@ export default function RegisterWithBg({
               placeholder="********"
             />
             <SubmitButton
+              id="registerSubmitButton"
               title="Registrarse"
               isLoading={isLoading}
               loadingTitle="Creando cuenta por favor espere..."
             />
             <Button variant="outline" className="w-full">
-              Signup with Google
+              Regístrate con Google
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
-            <Link href="/login" className="underline">
-              Login
+            ¿Ya tienes una cuenta?{" "}
+            <Link id="login-form" href="/login" className="underline">
+              Iniciar sesión
             </Link>
           </div>
         </div>

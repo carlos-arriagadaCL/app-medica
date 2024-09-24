@@ -105,6 +105,7 @@ export default function HospitalForm({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
+            id="hospitalName"
             label="Hospital Name"
             register={register}
             name="hospitalName"
@@ -113,6 +114,7 @@ export default function HospitalForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="hospitalAddress"
             label="Hospital Address"
             register={register}
             name="hospitalAddress"
@@ -121,6 +123,7 @@ export default function HospitalForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="hospitalContactNumber"
             label="Hospital Contact Number"
             register={register}
             name="hospitalContactNumber"
@@ -129,6 +132,7 @@ export default function HospitalForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="hospitalEmailAddress"
             label="Hospital Email Address"
             register={register}
             name="hospitalEmailAddress"
@@ -137,6 +141,7 @@ export default function HospitalForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="hospitalWebsite"
             label="Hospital Website (Optional)"
             register={register}
             name="hospitalWebsite"
@@ -146,6 +151,7 @@ export default function HospitalForm({
             isRequired={false}
           />
           <TextInput
+            id="hospitalHoursOfOperation"
             label="Hospital Hours of Operation"
             register={register}
             name="hospitalHoursOfOperation"
@@ -155,7 +161,7 @@ export default function HospitalForm({
           />
           <ShadSelectInput
             label="Do you accept insurance?"
-            optionTitle="insuranceAccepted"
+            optionTitle="Seleccione una opción"
             options={insuranceOptions}
             selectedOption={insuranceAccepted}
             setSelectedOption={setInsuranceAccepted}
@@ -173,6 +179,7 @@ export default function HospitalForm({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="hospital-infoSubmitButton"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

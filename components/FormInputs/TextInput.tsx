@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type TextInputProps = {
+  id: string;
   label: string;
   register: any;
   name: string;
@@ -17,6 +18,7 @@ type TextInputProps = {
 };
 
 export default function TextInput({
+  id,
   label,
   register,
   name,
@@ -36,7 +38,7 @@ export default function TextInput({
             href="/forgot-password"
             className="ml-auto inline-block text-sm underline"
           >
-            Forgot your password?
+            ¿Olvidaste tu contraseña?
           </Link>
         </div>
       ) : (
@@ -45,7 +47,7 @@ export default function TextInput({
 
       <Input
         {...register(`${name}`, { required: isRequired })}
-        id={`${name}`}
+        id={`${id}`}
         name={`${name}`}
         type={type}
         autoComplete="name"
