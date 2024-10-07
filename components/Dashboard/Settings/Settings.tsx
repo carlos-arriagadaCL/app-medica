@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GeneralSettings from "./GeneralSettings";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import React from "react";
 
 export default function Settings() {
   const tabs = [

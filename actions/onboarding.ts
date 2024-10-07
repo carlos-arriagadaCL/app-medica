@@ -1,5 +1,6 @@
 "use server";
 
+import WelcomeEmail from "@/components/Emails/welcome-email";
 import { prismaClient } from "@/lib/db";
 import { Resend } from "resend";
 
@@ -44,6 +45,22 @@ export async function createDoctorProfile(formData: any) {
   }
 }
 
+export async function createAvailability(data: any) {
+  try {
+    const newAvailability = await prismaClient.doctorProfile.create({
+      data});
+
+    return newAvailability;
+  } catch (error) {
+    console.log(error);
+    return {
+      data: null,
+      status: 500,
+      error: "Algo salio mal",
+    };
+  }
+}
+
 export async function updateDoctorProfile(id: string | undefined, data: any) {
   if (id) {
     try {
@@ -67,6 +84,29 @@ export async function updateDoctorProfile(id: string | undefined, data: any) {
     }
   }
 }
+export async function updateAvailabilityById(id: string | undefined, data: any) {
+  if (id) {
+    try {
+      const updatedAva = await prismaClient.doctorProfile.update({
+        where: {
+          id,
+        },
+        data,
+      });
+      return {
+        data: updatedAva,
+        status: 201,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        status: 500,
+        error: "Availability salio mal",
+      };
+    }
+  }
+}
 
 export async function getApplicationByTrack(trackingNumber: string) {
   if (trackingNumber) {
@@ -76,7 +116,7 @@ export async function getApplicationByTrack(trackingNumber: string) {
           trackingNumber,
         },
       });
-      if(!existingProfile){
+      if (!existingProfile) {
         return {
           data: null,
           status: 404,
@@ -98,24 +138,43 @@ export async function getApplicationByTrack(trackingNumber: string) {
   }
 }
 
-export async function getDoctorById(trackingNumber: string) {
-  if (trackingNumber) {
+export async function completeProfile(id: string | undefined, data: any) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  if (id) {
     try {
       const existingProfile = await prismaClient.doctorProfile.findUnique({
         where: {
-          trackingNumber,
+          id,
         },
       });
-      if(!existingProfile){
+      if (!existingProfile) {
         return {
           data: null,
           status: 404,
-          error: "No se encontro la solicitud",
+          error: "No se encontró el perfil",
         };
       }
+      // send a welcome email
+      const firstName = existingProfile.firstName;
+      const email = existingProfile.email as string;
+      const previewText = "Bienvenid@ a App Medica ";
+      const message =
+        "Gracias por unirte a los Doctores de App Medica, estamos muy felices de tenerte a aca.";
+      const sendMail = await resend.emails.send({
+        from: "App Medica <no-reply@app-medica.lat>",
+        to: email,
+        subject: "Bienvenid@ a App Medica",
+        react: WelcomeEmail({ firstName, previewText, message }),
+      });
+      const updatedProfile = await prismaClient.doctorProfile.update({
+        where: {
+          id,
+        },
+        data,
+      });
       return {
-        data: existingProfile,
-        status: 200,
+        data: updatedProfile,
+        status: 201,
         error: null,
       };
     } catch (error) {
@@ -123,6 +182,32 @@ export async function getDoctorById(trackingNumber: string) {
         data: null,
         status: 500,
         error: "Algo salio mal",
+      };
+    }
+  }
+}
+
+export async function getDoctorProfileById(userId: string | undefined) {
+  if (userId) {
+    try {
+      const profile = await prismaClient.doctorProfile.findUnique({
+        where: {
+          userId,
+        },
+        include: {
+          availability: true,
+        }
+      });
+      return {
+        data: profile,
+        status: 200,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        status: 500,
+        error: "Profile was not fetched",
       };
     }
   }

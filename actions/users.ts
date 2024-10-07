@@ -1,5 +1,4 @@
 "use server";
-
 import { prismaClient } from "@/lib/db";
 import { RegisterInputProps } from "@/types/types";
 import bcrypt from "bcrypt";

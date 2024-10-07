@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { TextAreaInput } from "../FormInputs/TextAreaInput";
 import MultipleFileUpload, { File } from "../FormInputs/MultipleFileUpload";
 import { StepFormProps } from "./BioDataForm";
-import { updateDoctorProfile } from "@/actions/onboarding";
+import { completeProfile, updateDoctorProfile } from "@/actions/onboarding";
 import { useOnBoardingContext } from "@/context/context";
 
 export default function AdditionalInfo({
@@ -48,14 +48,14 @@ export default function AdditionalInfo({
     data.additionalDocs = additionalDocs.map((doc) => doc.url);
     console.log(data);
     try {
-      const res = await updateDoctorProfile(formId, data);
+      const res = await completeProfile(formId, data);
       setAdditionalData(data);
       if (res?.status === 201) {
         setIsLoading(false);
 
         toast.success("Profile Completed Successfully");
 
-        router.push(`/onboarding/${userId}?page=${nextPage}`);
+        router.push("/login");
       } else {
         setIsLoading(false);
         toast.error("Algo salio mal");
@@ -66,7 +66,7 @@ export default function AdditionalInfo({
   }
   return (
     <div className="w-full">
-      <div className="text-center border-b border-gray-200 pb-4">
+      <div className="text-center border-b border-gray-200 dark:border-slate-600 pb-4">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-2">
           {title}
         </h1>
@@ -104,7 +104,8 @@ export default function AdditionalInfo({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
-            title="Guardar y continuar"
+            id="submit"
+            title="Finalizar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."
           />

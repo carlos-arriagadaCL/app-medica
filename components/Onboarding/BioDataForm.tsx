@@ -130,7 +130,7 @@ export default function BioDataForm({
   }
   return (
     <div className="w-full">
-      <div className="text-center border-b border-gray-200 pb-4">
+      <div className="text-center border-b border-gray-200 pb-4 dark:border-slate-600">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-2">
           {title}
         </h1>
@@ -139,6 +139,7 @@ export default function BioDataForm({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
+            id="firstName"
             label="Nombre"
             register={register}
             name="firstName"
@@ -147,6 +148,7 @@ export default function BioDataForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="lastName"
             label="Apellido"
             register={register}
             name="lastName"
@@ -155,6 +157,7 @@ export default function BioDataForm({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="rut"
             label="Rut"
             register={register}
             name="rut"
@@ -178,6 +181,7 @@ export default function BioDataForm({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="bioDataSubmitButton"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

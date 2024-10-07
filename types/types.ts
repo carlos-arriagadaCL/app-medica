@@ -1,9 +1,6 @@
-import { File } from "@/components/FormInputs/MultipleFileUpload";
-import { UserRole } from "@prisma/client";
-
 export type ServiceProps = {
   title: string;
-  image: string;
+  imageUrl: string;
   slug: string;
 };
 
@@ -78,4 +75,11 @@ export type AdditionalFormProps = {
   accomplishments: string;
   additionalDocs: any;
   page: string;
+};
+
+export type stats = {
+  doctors: string;
+  patients: string;
+  appointments: string;
+  services: string;
 };

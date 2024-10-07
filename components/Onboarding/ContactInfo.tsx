@@ -58,7 +58,7 @@ export default function ContactInfo({
   }
   return (
     <div className="w-full">
-      <div className="text-center border-b border-gray-200 pb-4">
+      <div className="text-center border-b border-gray-200 pb-4 dark:border-slate-600">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-2">
           {title}
         </h1>
@@ -67,6 +67,7 @@ export default function ContactInfo({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
+            id="email"
             label="Correo electronico"
             register={register}
             name="email"
@@ -76,6 +77,7 @@ export default function ContactInfo({
             className="col-span-full"
           />
           <TextInput
+            id="phone"
             label="Celular"
             register={register}
             name="phone"
@@ -84,6 +86,7 @@ export default function ContactInfo({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="country"
             label="Pais"
             register={register}
             name="country"
@@ -92,6 +95,7 @@ export default function ContactInfo({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="city"
             label="Ciudad"
             register={register}
             name="city"
@@ -100,6 +104,7 @@ export default function ContactInfo({
             className="col-span-full sm:col-span-1"
           />
           <TextInput
+            id="state"
             label="Comuna"
             register={register}
             name="state"
@@ -110,6 +115,7 @@ export default function ContactInfo({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="contactInfoSubmitButton"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

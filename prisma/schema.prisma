@@ -58,25 +58,77 @@ model User {
   password      String
   accounts      Account[]
   sessions      Session[]
+  symptomIds    String[]
   doctorProfile DoctorProfile?
+  serviceId     String?        @db.ObjectId
+  service       Service?       @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  specialityId  String?        @db.ObjectId
+  speciality    Speciality?    @relation(fields: [specialityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   isVerfied     Boolean        @default(false)
   token         Int
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
 
-model DoctorProfile {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String    @unique @db.ObjectId
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  trackingNumber String    @unique
-  firstName      String
-  lastName       String
-  rut            String
-  dob            DateTime?
-  gender         String
-  page           String
+model Availability {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  doctorProfileId String        @unique @db.ObjectId
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  monday          String[]
+  tuesday         String[]
+  wednesday       String[]
+  thursday        String[]
+  friday          String[]
+  saturday        String[]
+  sunday          String[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
 
+model Service {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  doctors  User[]
+  title    String
+  slug     String @unique
+  imageUrl String
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  DoctorProfile DoctorProfile[]
+}
+
+model Speciality {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  doctors User[]
+  title   String
+  slug    String @unique
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  DoctorProfile DoctorProfile[]
+}
+
+model Symptom {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  slug  String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DoctorProfile {
+  id                   String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId               String        @unique @db.ObjectId
+  user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  trackingNumber       String        @unique
+  firstName            String
+  lastName             String
+  rut                  String
+  dob                  DateTime?
+  gender               String
+  page                 String
+  availability         Availability?
   profilePicture       String?
   bio                  String?
   medicalLicense       String?
@@ -110,6 +162,12 @@ model DoctorProfile {
   accomplishments  String?
   additionalDocs   String[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // Services
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  Service      Service?    @relation(fields: [serviceId], references: [id])
+  serviceId    String?     @db.ObjectId
+  Speciality   Speciality? @relation(fields: [specialityId], references: [id])
+  specialityId String?     @db.ObjectId
 }

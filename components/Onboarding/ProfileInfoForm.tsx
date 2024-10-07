@@ -63,7 +63,10 @@ export default function ProfileInfoForm({
     data.profilePicture = profileImage;
     console.log(data);
     try {
-      const res = await updateDoctorProfile(formId, data);
+      const res = await updateDoctorProfile(
+        `${formId ? formId : savedDBData.id}`,
+        data
+      );
       setProfileData(data);
       if (res?.status === 201) {
         setIsLoading(false);
@@ -79,7 +82,7 @@ export default function ProfileInfoForm({
   }
   return (
     <div className="w-full">
-      <div className="text-center border-b border-gray-200 pb-4">
+      <div className="text-center border-b border-gray-200 pb-4 dark:border-slate-600">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-2">
           {title}
         </h1>

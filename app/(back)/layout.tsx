@@ -13,7 +13,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   const user = session.user;
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <Sidebar />
+      <Sidebar session={session} />
       <div className="flex flex-col">
         <Navbar session={session} />
         <div className="flex min-h-screen w-full flex-col">{children}</div>
