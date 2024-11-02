@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { TextAreaInput } from "../FormInputs/TextAreaInput";
-import MultipleFileUpload, { File } from "../FormInputs/MultipleFileUpload";
+import MultipleFileUpload from "../FormInputs/MultipleFileUpload";
 import { StepFormProps } from "./BioDataForm";
 import { completeProfile, updateDoctorProfile } from "@/actions/onboarding";
 import { useOnBoardingContext } from "@/context/context";
@@ -45,7 +45,7 @@ export default function AdditionalInfo({
   async function onSubmit(data: AdditionalFormProps) {
     setIsLoading(true);
     data.page = page;
-    data.additionalDocs = additionalDocs.map((doc) => doc.url);
+    data.additionalDocs = additionalDocs.map((doc: any) => doc.url);
     console.log(data);
     try {
       const res = await completeProfile(formId, data);
@@ -97,7 +97,7 @@ export default function AdditionalInfo({
           />
           <MultipleFileUpload
             label="Any Additional Documents (CV, Medical Certifications, etc.) Upload"
-            files={additionalDocs}
+            files={additionalDocs as any}
             setFiles={setAdditionalDocs}
             endpoint="additionalDocs"
           />

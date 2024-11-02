@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { StepFormProps } from "./BioDataForm";
 import SelectInput from "../FormInputs/SelectInput";
 import ArrayItemsInput from "../FormInputs/ArrayInput";
-import MultipleFileUpload, { File } from "../FormInputs/MultipleFileUpload";
+import MultipleFileUpload from "../FormInputs/MultipleFileUpload";
 import { updateDoctorProfile } from "@/actions/onboarding";
 import { useOnBoardingContext } from "@/context/context";
 
@@ -64,7 +64,7 @@ export default function EducationInfo({
     setIsLoading(true);
     data.page = page;
     data.otherSpecializations = otherSpecializations;
-    data.boardCertifications = docs.map((doc) => doc.url);
+    data.boardCertifications = docs.map((doc: any) => doc.url);
 
     try {
       const res = await updateDoctorProfile(formId, data);
@@ -125,7 +125,7 @@ export default function EducationInfo({
           />
           <MultipleFileUpload
             label="Sube tus Documentos Académicos (Máximo de 4 documentos)"
-            files={docs}
+            files={docs as any}
             setFiles={setDocs}
             endpoint="doctorProfessionDocs"
           />

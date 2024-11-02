@@ -15,7 +15,7 @@ export default async function page() {
           <div className="flex items-center justify-between">
             <PanelHeader
               title="Services"
-              count={services.length.toString().padStart(2, "0")}
+              count={services.length}
               icon={LayoutGrid}
             />
             <div className="lg:hidden">

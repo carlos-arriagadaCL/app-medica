@@ -1,16 +1,13 @@
 "use client";
-import { updateDoctorProfile } from "@/actions/onboarding";
 import { updateDoctorProfileWithService } from "@/actions/services";
 import { Button } from "@/components/ui/button";
-import { CardContent, CardFooter } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { DoctorProfile, Service, Speciality, Symptom } from "@prisma/client";
-import { Loader, PictureInPicture2, Map, Video } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Loader, Map, Video } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import PriceUpdateForm from "../PriceUpdateForm";
 
 export default function UpdateServiceForm({
   services,
@@ -24,28 +21,30 @@ export default function UpdateServiceForm({
   profile: DoctorProfile | undefined | null;
 }) {
   // const { data: session, status } = useSession();
+  // if (status === "loading") {
+  //   return (
+  //     <div className="flex items-center">
+  //       <Loader className="mr-1 w-4 h-4 animate-spin" />
+  //       <span>Loading a User ...</span>
+  //     </div>
+  //   );
+  // }
   const profileId = profile?.id;
-  if (status === "loading") {
-    return (
-      <div className="flex items-center">
-        <Loader className="mr-1 w-4 h-4 animate-spin" />
-        <span>Loading a User ...</span>
-      </div>
-    );
-  }
   // const user = session?.user;
-  const [selectedServiceId, setSelectedServiceId] = useState(
-    profile?.serviceId
-  );
-  const [specialtyId, setSpecialtyId] = useState(profile?.specialtyId);
-  const [operationMode, setOperationMode] = useState(profile?.operationMode);
-  const [symptomIds, setSymptomIds] = useState<string[]>(
-    profile?.symptomIds || []
-  );
+  const initialServiceId = profile?.serviceId ?? "";
+  const initialSpecialtyId = profile?.specialtyId ?? "";
+  const inititialOperationMode = profile?.operationMode ?? "";
+  const initialSymptomIds = profile?.symptomIds ?? [];
+  const initialPrice = profile?.hourlyWage ?? 100;
+
+  const [selectedServiceId, setSelectedServiceId] = useState(initialServiceId);
+  const [specialtyId, setSpecialtyId] = useState(initialSpecialtyId);
+  const [operationMode, setOperationMode] = useState(inititialOperationMode);
+  const [symptomIds, setSymptomIds] = useState<string[]>(initialSymptomIds);
+  const [price, setPrice] = useState(initialPrice);
 
   const [savingServices, setSavingServices] = useState(false);
   const [savingPrice, setSavingPrice] = useState(false);
-  const [price, setPrice] = useState(profile?.hourlyWage);
   const [savingSpecialty, setSavingSpecialty] = useState(false);
   const [savingSymptoms, setSavingSymptoms] = useState(false);
   const [savingMode, setSavingMode] = useState(false);
@@ -78,7 +77,7 @@ export default function UpdateServiceForm({
     }
     console.log(data);
   }
-  
+
   async function handleUpdatePrice() {
     setSavingPrice(true);
     const data = {
@@ -187,10 +186,11 @@ export default function UpdateServiceForm({
           </div>
           <div className="grid grid-cols-4 gap-2 py-3">
             {operationModes &&
-              operationModes.map((item) => {
+              operationModes.map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <button
+                    key={i}
                     onClick={() => setOperationMode(item.title)}
                     className={cn(
                       "border flex items-center justify-center flex-col py-2 px-3 rounded-md cursor-pointer",
@@ -218,9 +218,10 @@ export default function UpdateServiceForm({
           </div>
           <div className="grid grid-cols-4 gap-2 py-3">
             {services &&
-              services.map((item) => {
+              services.map((item, i) => {
                 return (
                   <button
+                    key={i}
                     onClick={() => setSelectedServiceId(item.id)}
                     className={cn(
                       "border flex items-center justify-center flex-col py-2 px-3 rounded-md cursor-pointer",
@@ -254,9 +255,10 @@ export default function UpdateServiceForm({
           </div>
           <div className="grid grid-cols-4 gap-2 py-3">
             {specialties &&
-              specialties.map((item) => {
+              specialties.map((item, i) => {
                 return (
                   <button
+                    key={i}
                     onClick={() => setSpecialtyId(item.id)}
                     className={cn(
                       "border flex items-center justify-center flex-col py-3 px-3 rounded-md cursor-pointer",
