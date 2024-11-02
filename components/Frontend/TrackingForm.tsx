@@ -98,6 +98,7 @@ export default function TrackingForm() {
         />
 
         <SubmitButton
+          id="submit"
           title="Submit to Resume"
           isLoading={loading}
           loadingTitle="Obteniendo datos por favor espere..."

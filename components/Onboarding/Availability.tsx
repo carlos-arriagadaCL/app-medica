@@ -21,7 +21,6 @@ import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { StepFormProps } from "./BioDataForm";
 
-
 export default function Availability({
   page,
   title,
@@ -66,6 +65,7 @@ export default function Availability({
       <form className=" py-4 px-4 mx-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 grid-cols-2">
           <TextInput
+            id="meetingDuration"
             label="What is the Duration of your Meetings"
             register={register}
             name="meetingDuration"
@@ -192,6 +192,7 @@ export default function Availability({
         </div>
         <div className="mt-8 flex justify-center items-center">
           <SubmitButton
+            id="submit"
             title="Guardar y continuar"
             isLoading={isLoading}
             loadingTitle="Guardando por favor espere..."

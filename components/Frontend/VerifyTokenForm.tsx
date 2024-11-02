@@ -119,6 +119,7 @@ export default function VerifyTokenForm({
         />
 
         <SubmitButton
+          id="verify"
           title="Verificando"
           isLoading={loading}
           loadingTitle="Verificando por favor espere..."
