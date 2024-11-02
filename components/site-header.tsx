@@ -1,14 +1,9 @@
 "use client";
 import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { CommandMenu } from "@/components/command-menu";
-import { Icons } from "@/components/icons";
 import { MainNav } from "@/components/main-nav";
 import { MobileNav } from "@/components/mobile-nav";
 import ModeToggle from "@/components/ModeToggle";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import { Session } from "next-auth";
 import {
@@ -22,9 +17,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getInitials } from "@/utils/generateInitials";
 
 export default function SiteHeader({ session }: { session: Session | null }) {
   const user = session?.user;
+  const initials = getInitials(user?.name ?? "");
   const router = useRouter();
   async function handleLogout() {
     await signOut();
@@ -52,7 +49,7 @@ export default function SiteHeader({ session }: { session: Session | null }) {
                           alt="@shadcn"
                         />
                       ) : (
-                        <AvatarFallback>CN</AvatarFallback>
+                        <AvatarFallback>{initials}</AvatarFallback>
                       )}
                     </Avatar>
 

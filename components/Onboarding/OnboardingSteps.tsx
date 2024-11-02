@@ -11,8 +11,15 @@ import AdditionalInfo from "./AdditionalInfo";
 import Availability from "./Availability";
 import HospitalInfo from "./HospitalInfo";
 import { useOnBoardingContext } from "@/context/context";
+import { Speciality } from "@prisma/client";
 
-export default function OnboardingSteps({ id }: { id: string }) {
+export default function OnboardingSteps({
+  id,
+  specialties,
+}: {
+  id: string;
+  specialties: Speciality[];
+}) {
   const params = useSearchParams();
   const page = params.get("page") ?? "bio-data";
   const { trackingNumber, doctorProfileId, savedDBData } =
@@ -65,6 +72,7 @@ export default function OnboardingSteps({ id }: { id: string }) {
       page: "education",
       component: (
         <EducationInfo
+          specialties={specialties}
           title="Información educativa"
           description="Por favor complete su información educativa"
           page={page}
@@ -119,7 +127,7 @@ export default function OnboardingSteps({ id }: { id: string }) {
   ];
   const currentStep = steps.find((step) => step.page === page);
   return (
-    <div className="grid grid-cols-12 mx-auto rounded-lg shadow-inner overflow-hidden border border-slate-200 dark:border-slate-600 min-h-screen bg-slate-100 dark:bg-slate-950">
+    <div className="grid grid-cols-12 mx-auto rounded-lg shadow-inner border border-slate-200 dark:border-slate-600 min-h-screen bg-slate-100 dark:bg-slate-950">
       <div className="col-span-full sm:col-span-3 divide-y-2 divide-gray-200 bg-slate-300 h-full dark:bg-slate-900">
         {steps.map((step, i) => {
           return (

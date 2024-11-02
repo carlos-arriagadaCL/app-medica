@@ -6,6 +6,7 @@ export async function getStats() {
   try {
     const serviceCount = await prismaClient.service.count();
     const doctorCount = await prismaClient.doctorProfile.count();
+    // const appointmentCount = await prismaClient.appointment.count();
     const stats = {
       doctors: doctorCount.toString().padStart(2, "0"),
       patients: "00",

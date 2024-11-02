@@ -6,45 +6,19 @@ import DoctorCard from "./DoctorCard";
 import { ArrowUpRight, Map } from "lucide-react";
 import DoctorsListCarousel from "./DoctorsListCarousel";
 import { Button } from "./ui/button";
+import { Doctor } from "@/types/types";
 
 export default function DoctorsList({
   title = "Telemedicina",
   isInPerson,
   className = "bg-pink-100 dark:bg-blue-800 py-8 lg:py-24",
+  doctors,
 }: {
   title?: string;
   isInPerson?: boolean;
   className?: string;
+  doctors: Doctor[];
 }) {
-  const doctors = [
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-    {
-      name: "John",
-    },
-  ];
   return (
     <div className={className}>
       <div className="max-w-6xl mx-auto">

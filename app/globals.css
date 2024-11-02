@@ -75,3 +75,20 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
+
+.react-date-picker__wrapper {
+  border: 0px !important;
+}
+
+/*
+.react-date-picker__inputGroup__divider {
+  display: none !important;
+}
+.react-date-picker__inputGroup__input::placeholder {
+  visibility: hidden;
+} 
+*/
+
+.react-date-picker__calendar-button__icon .react-date-picker__button__icon {
+  color: white;
+}

@@ -126,16 +126,18 @@ export async function getServices() {
 }
 export async function getServiceBySlug(slug: string) {
   try {
-    const service = await prismaClient.service.findUnique({
-      where: {
-        slug,
-      },
-    });
-    return {
-      data: service,
-      status: 200,
-      error: null,
-    };
+    if (slug) {
+      const service = await prismaClient.service.findUnique({
+        where: {
+          slug,
+        },
+      });
+      return {
+        data: service,
+        status: 200,
+        error: null,
+      };
+    }
   } catch (error) {
     return {
       data: null,
@@ -163,5 +165,32 @@ export async function deleteService(id: string) {
       status: 500,
       error,
     };
+  }
+}
+export async function updateDoctorProfileWithService(
+  id: string | undefined,
+  data: any
+) {
+  if (id) {
+    try {
+      const updatedProfile = await prismaClient.doctorProfile.update({
+        where: {
+          id,
+        },
+        data,
+      });
+      revalidatePath("/dashboard/doctor/settings");
+      return {
+        data: updatedProfile,
+        status: 201,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        data: null,
+        status: 500,
+        error: "Algo salio mal",
+      };
+    }
   }
 }

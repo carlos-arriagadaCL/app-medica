@@ -2,14 +2,20 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { getFormattedDate } from "@/utils/getFormatedShortDate";
 
-export default function FixedBookButton() {
+export default function FixedBookButton({
+  price,
+}: {
+  price: number | undefined;
+}) {
+  const formattedDate = getFormattedDate();
   return (
     <div className="fixed bottom-0 bg-white dark:bg-slate-700 z-50 w-full shadow-2xl py-8 px-6 mx-auto">
       <div className="max-w-4xl mx-auto gap-4 flex items-center justify-between">
         <div className="w-full">
-          <p className="text-xl font-bold">$precio</p>
-          <p className="font-semibold text-sm">fecha de cita</p>
+          <p className="text-xl font-bold">${price}</p>
+          <p className="font-semibold text-sm">{formattedDate}</p>
         </div>
         <Button
           variant="outline"

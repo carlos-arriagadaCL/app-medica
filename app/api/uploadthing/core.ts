@@ -24,6 +24,12 @@ export const ourFileRouter = {
     console.log("file url", file.url);
     return { uploadedBy: "user" };
   }),
+  patientMedicalFiles: f({
+    pdf: { maxFileSize: "4MB", maxFileCount: 4 },
+  }).onUploadComplete(async ({ metadata, file }) => {
+    console.log("file url", file.url);
+    return { uploadedBy: "user" };
+  }),
   additionalDocs: f({
     pdf: { maxFileSize: "4MB", maxFileCount: 4 },
   }).onUploadComplete(async ({ metadata, file }) => {

@@ -1,9 +1,10 @@
 "use server";
 import { prismaClient } from "@/lib/db";
-import { RegisterInputProps } from "@/types/types";
+import { DoctorDetail, RegisterInputProps } from "@/types/types";
 import bcrypt from "bcrypt";
 import { Resend } from "resend";
 import EmailTemplate from "@/components/Emails/email-template";
+import generateSlug from "@/utils/generateSlug";
 
 export async function createUser(formData: RegisterInputProps) {
   const resend = new Resend(process.env.RESEND_API_KEY);
@@ -33,6 +34,7 @@ export async function createUser(formData: RegisterInputProps) {
     const newUser = await prismaClient.user.create({
       data: {
         name: fullName,
+        slug: generateSlug(fullName),
         email,
         phone,
         password: hashedPassword,
@@ -99,6 +101,119 @@ export async function updateUserById(id: string) {
       return updateUser;
     } catch (error) {
       console.log(error);
+    }
+  }
+}
+
+export async function getDoctors() {
+  try {
+    const doctors = await prismaClient.user.findMany({
+      where: {
+        role: "DOCTOR",
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        slug: true,
+        phone: true,
+        doctorProfile: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            gender: true,
+            bio: true,
+            profilePicture: true,
+            operationMode: true,
+            hourlyWage: true,
+
+            availability: {
+              select: {
+                monday: true,
+                tuesday: true,
+                wednesday: true,
+                thursday: true,
+                friday: true,
+                saturday: true,
+                sunday: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return doctors;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function getDoctorBySlug(slug: string) {
+  if (slug) {
+    try {
+      const doctor = await prismaClient.user.findFirst({
+        where: {
+          role: "DOCTOR",
+          slug,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          slug: true,
+          phone: true,
+          doctorProfile: {
+            select: {
+              firstName: true,
+              lastName: true,
+              gender: true,
+              bio: true,
+              profilePicture: true,
+              operationMode: true,
+              hourlyWage: true,
+              yearsOfExperience: true,
+              country: true,
+              city: true,
+              state: true,
+              primarySpecialization: true,
+              otherSpecializations: true,
+              hospitalName: true,
+              hospitalAddress: true,
+              hospitalContactNumber: true,
+              hospitalEmailAddress: true,
+              hospitalWebsite: true,
+              hospitalHoursOfOperation: true,
+              servicesOffered: true,
+              insuranceAccepted: true,
+              languagesSpoken: true,
+              educationHistory: true,
+              research: true,
+              accomplishments: true,
+
+              availability: {
+                select: {
+                  monday: true,
+                  tuesday: true,
+                  wednesday: true,
+                  thursday: true,
+                  friday: true,
+                  saturday: true,
+                  sunday: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!doctor) {
+        return null;
+      }
+      return doctor as DoctorDetail;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   }
 }

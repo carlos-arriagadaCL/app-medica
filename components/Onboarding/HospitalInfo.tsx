@@ -9,7 +9,7 @@ import { DatePickerInput } from "../FormInputs/DatePickerInput";
 import RadioInput from "../FormInputs/RadioInput";
 import toast from "react-hot-toast";
 import ArrayItemsInput from "../FormInputs/ArrayInput";
-import { ShadSelectInput } from "../FormInputs/ShadSelectInput";
+import ShadSelectInput from "../FormInputs/ShadSelectInput";
 import { StepFormProps } from "./BioDataForm";
 import { updateDoctorProfile } from "@/actions/onboarding";
 import { useOnBoardingContext } from "@/context/context";
@@ -111,6 +111,16 @@ export default function HospitalForm({
             name="hospitalName"
             errors={errors}
             placeholder="Enter hospital name"
+            className="col-span-full sm:col-span-1"
+          />
+          <TextInput
+            id="hourlyWage"
+            label="Hourly Charge"
+            register={register}
+            name="hourlyWage"
+            type="number"
+            errors={errors}
+            placeholder="Enter Charge per Hour"
             className="col-span-full sm:col-span-1"
           />
           <TextInput

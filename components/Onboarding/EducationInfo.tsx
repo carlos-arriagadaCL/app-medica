@@ -20,22 +20,18 @@ export default function EducationInfo({
   nextPage,
   formId,
   userId,
+  specialties,
 }: StepFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const { educationData, savedDBData, setEducationData } =
     useOnBoardingContext();
 
-  const specializationOptions = [
-    {
-      label: "Medicina General",
-      value: "medicine",
-    },
-    {
-      label: "Salud mental",
-      value: "mentalHealth",
-    },
-  ];
+  const allSpecialties =
+    specialties?.map((item) => {
+      return { label: item.title, value: item.id };
+    }) || [];
+
   const initialSpecialization =
     educationData.otherSpecializations.length > 0
       ? educationData.otherSpecializations
@@ -120,7 +116,7 @@ export default function EducationInfo({
             register={register}
             name="specialization"
             className="col-span-full sm:col-span-1"
-            options={specializationOptions}
+            options={allSpecialties}
           />
           <ArrayItemsInput
             setItems={setOtherSpecializations}

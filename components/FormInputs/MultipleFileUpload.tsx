@@ -5,13 +5,13 @@ import { UploadDropzone } from "@/utils/uploadthing";
 
 type MultipleImageInputProps = {
   label: string;
-  files: File[];
+  files: FileProps[];
   setFiles: any;
   className?: string;
   endpoint?: any;
 };
 
-export type File = {
+export type FileProps = {
   title: string;
   size: number;
   url: string;

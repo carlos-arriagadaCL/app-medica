@@ -17,11 +17,13 @@ export default function Monday({
   profile: any;
   day: string;
 }) {
+  let initialData: string[] = ["7:00 AM"];
+  if (profile && profile?.availability) {
+    initialData = profile?.availability[day] || [];
+  }
   const availability = profile?.availability || "";
-  
-  const initialData = profile?.availability[day] || [];
 
-  const [selectedTimes, setSelectedTimes] = useState<string[]>(initialData);
+  const [selectedTimes, setSelectedTimes] = useState(initialData);
 
   function handleAddTime(time: string) {
     if (!selectedTimes.includes(time)) {

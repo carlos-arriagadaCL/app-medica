@@ -12,8 +12,8 @@ export default function Footer() {
           name: "List your Service",
         },
         {
-          href: "#",
-          name: "Blog",
+          href: "/onboarding/resume",
+          name: "Resume your Application",
         },
         {
           href: "#",

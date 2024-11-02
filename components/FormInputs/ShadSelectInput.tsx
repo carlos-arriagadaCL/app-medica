@@ -22,7 +22,7 @@ export type SelectOption = {
   label: string;
 };
 
-export function ShadSelectInput({
+export default function ShadSelectInput({
   label,
   className = "sm:col-span-2",
   optionTitle,
@@ -31,24 +31,34 @@ export function ShadSelectInput({
   setSelectedOption,
 }: SelectInputProps) {
   return (
-    <Select>
-      <SelectTrigger className={className}>
-        <SelectValue placeholder={label} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>{optionTitle}</SelectLabel>
-          {options.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value}
-              onClick={() => setSelectedOption(option)}
-            >
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <div className={className}>
+      <label
+        htmlFor={label}
+        className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2"
+      >
+        {label}
+      </label>
+      <div className="mt-2">
+        <Select onValueChange={(value) => setSelectedOption(value)}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder={`Select ${optionTitle}`} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>{optionTitle}</SelectLabel>
+              {options.map((option) => (
+                <SelectItem
+                  key={option.value}
+                  value={option.value}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   );
 }

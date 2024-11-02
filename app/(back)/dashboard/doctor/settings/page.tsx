@@ -4,6 +4,7 @@ import AvailabilitySettings from "@/components/Dashboard/Doctor/AvailabilitySett
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getDoctorProfileById } from "@/actions/onboarding";
+import DoctorServiceSettings from "@/components/Dashboard/Doctor/DoctorServiceSettings";
 // import { Tabs } from "flowbite-react";
 
 export default async function page() {
@@ -18,13 +19,15 @@ export default async function page() {
       <Tabs defaultValue="availability" className="w-[800px]">
         <TabsList>
           <TabsTrigger value="availability">Availability Settings</TabsTrigger>
-          <TabsTrigger value="account">Account Settings</TabsTrigger>
+          <TabsTrigger value="service">Service Settings</TabsTrigger>
         </TabsList>
         <TabsContent value="availability" className="w-full">
           {/* Availability Form */}
           <AvailabilitySettings profile={profile?.data} />
         </TabsContent>
-        <TabsContent value="account">Change your password here.</TabsContent>
+        <TabsContent value="service">
+          <DoctorServiceSettings profile={profile?.data} />
+        </TabsContent>
       </Tabs>
     </div>
   );

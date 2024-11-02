@@ -81,6 +81,7 @@ const initialHospitalData: HospitalFormProps = {
   servicesOffered: [],
   insuranceAccepted: "",
   languagesSpoken: [],
+  hourlyWage: 100,
   page: "",
 };
 const initialAdditionalData: AdditionalFormProps = {

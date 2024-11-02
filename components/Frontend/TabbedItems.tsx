@@ -4,27 +4,20 @@ import { Tabs } from "flowbite-react";
 import { Activity, Microscope, Stethoscope, Syringe } from "lucide-react";
 import ServiceList from "./Services/ServiceList";
 import LinkCards from "./Doctors/LinkCards";
+import { Service, Speciality, Symptom } from "@prisma/client";
+import SymptomCards from "./Doctors/SymptomCards";
 // import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
 // import { MdDashboard } from "react-icons/md";
-
-export default function TabbedItems() {
-  const services = [
-    {
-      title: "Telemedicina",
-      image: "/hospital-logo.webp",
-      slug: "telemedicina",
-    },
-    {
-      title: "Salud mental",
-      image: "/hospital-logo.webp",
-      slug: "telemedicina",
-    },
-    {
-      title: "Consulta licencias",
-      image: "/hospital-logo.webp",
-      slug: "telemedicina",
-    },
-  ];
+type TabbedItemsProps = {
+  services: Service[];
+  specialties: Speciality[];
+  symptoms: Symptom[];
+};
+export default function TabbedItems({
+  services,
+  specialties,
+  symptoms
+}: TabbedItemsProps) {
   const tabs = [
     {
       title: "Servicios populares",
@@ -32,22 +25,22 @@ export default function TabbedItems() {
       component: <ServiceList data={services} />,
       content: [],
     },
-    {
-      title: "Doctores",
-      icon: Microscope,
-      component: <LinkCards />,
-      content: [],
-    },
+    // {
+    //   title: "Doctores",
+    //   icon: Microscope,
+    //   component: <LinkCards />,
+    //   content: [],
+    // },
     {
       title: "Especialistas",
       icon: Activity,
-      component: <LinkCards className="bg-blue-900" />,
+      component: <LinkCards className="bg-blue-900" specialties={specialties} />,
       content: [],
     },
     {
       title: "Sintomas",
       icon: Syringe,
-      component: <LinkCards className="bg-pink-950" />,
+      component: <SymptomCards className="bg-pink-950" symptoms={symptoms} />,
       content: [],
     },
   ];

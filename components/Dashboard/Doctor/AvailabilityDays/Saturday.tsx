@@ -17,10 +17,12 @@ export default function Saturday({
   profile: any;
   day: string;
 }) {
+  let initialData: string[] = ["7:00 AM"];
+  if (profile && profile?.availability) {
+    initialData = profile?.availability[day] || [];
+  }
   const availability = profile?.availability || "";
   
-  const initialData = profile?.availability[day] || [];
-
   const [selectedTimes, setSelectedTimes] = useState<string[]>(initialData);
 
   function handleAddTime(time: string) {
