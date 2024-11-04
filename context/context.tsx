@@ -1,5 +1,7 @@
-// context => useState to global Level
+// context.tsx
 "use client";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 import {
   AdditionalFormProps,
@@ -9,7 +11,6 @@ import {
   HospitalFormProps,
   ProfileFormProps,
 } from "@/types/types";
-import { set } from "date-fns";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface IOnBoardingContextData {
@@ -37,24 +38,26 @@ interface IOnBoardingContextData {
   setAdditionalData: (data: AdditionalFormProps) => void;
 }
 
-const initialBioData = {
+const initialBioData: BioDataFormProps = {
   firstName: "",
   lastName: "",
   rut: "",
-  dob: "",
+  dob: null,
   gender: "",
   page: "",
   userId: "",
   trackingNumber: "",
 };
-const initialProfileData = {
+
+const initialProfileData: ProfileFormProps = {
   profilePicture: "",
   bio: "",
   page: "",
   medicalLicense: "",
-  medicalLicenseExpiry: "",
+  medicalLicenseExpiry: null,
   yearsOfExperience: 0,
 };
+
 const initialContactData: ContactFormProps = {
   email: "",
   phone: "",
@@ -63,6 +66,7 @@ const initialContactData: ContactFormProps = {
   state: "",
   page: "",
 };
+
 const initialEducationData: EducationFormProps = {
   medicalSchool: "",
   graduationYear: 0,
@@ -71,6 +75,7 @@ const initialEducationData: EducationFormProps = {
   boardCertifications: [],
   page: "",
 };
+
 const initialHospitalData: HospitalFormProps = {
   hospitalName: "",
   hospitalAddress: "",
@@ -84,6 +89,7 @@ const initialHospitalData: HospitalFormProps = {
   hourlyWage: 100,
   page: "",
 };
+
 const initialAdditionalData: AdditionalFormProps = {
   educationHistory: "",
   research: "",
@@ -92,37 +98,17 @@ const initialAdditionalData: AdditionalFormProps = {
   page: "",
 };
 
-const initialContextData = {
-  setTrackingNumber: () => {},
-  setDoctorProfileId: () => {},
-  setBioData: () => {},
-  setProfileData: () => {},
-  setContactData: () => {},
-  setEducationData: () => {},
-  setHospitalData: () => {},
-  setAdditionalData: () => {},
-
-  savedDBData: {},
-  setSavedDBData: () => {},
-
-  trackingNumber: "",
-  doctorProfileId: "",
-  bioData: initialBioData,
-  profileData: initialProfileData,
-  contactData: initialContactData,
-  educationData: initialEducationData,
-  hospitalData: initialHospitalData,
-  additionalData: initialAdditionalData,
-};
-
-const OnBoardingContext =
-  createContext<IOnBoardingContextData>(initialContextData);
+const OnBoardingContext = createContext<IOnBoardingContextData | undefined>(
+  undefined
+);
 
 export function OnboardingContextProvider({
   children,
 }: {
   children: ReactNode;
 }) {
+  const { data: session } = useSession();
+
   const [trackingNumber, setTrackingNumber] = useState<string>("");
   const [doctorProfileId, setDoctorProfileId] = useState<string>("");
   const [bioData, setBioData] = useState<BioDataFormProps>(initialBioData);
@@ -139,6 +125,21 @@ export function OnboardingContextProvider({
   );
 
   const [savedDBData, setSavedDBData] = useState<any>({});
+
+  function resetContext() {
+    setTrackingNumber("");
+    setDoctorProfileId("");
+    setBioData(initialBioData);
+    setProfileData(initialProfileData);
+    setContactData(initialContactData);
+    setEducationData(initialEducationData);
+    setHospitalData(initialHospitalData);
+    setAdditionalData(initialAdditionalData);
+    setSavedDBData({});
+  }
+  useEffect(() => {
+    resetContext();
+  }, [session?.user?.id]);
 
   const contextValues = {
     trackingNumber,
@@ -169,7 +170,11 @@ export function OnboardingContextProvider({
 }
 
 export function useOnBoardingContext() {
-  return useContext(OnBoardingContext);
+  const context = useContext(OnBoardingContext);
+  if (!context) {
+    throw new Error(
+      "useOnBoardingContext must be used within an OnboardingContextProvider"
+    );
+  }
+  return context;
 }
-
-export default OnBoardingContext;

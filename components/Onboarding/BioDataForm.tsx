@@ -10,7 +10,6 @@ import RadioInput from "../FormInputs/RadioInput";
 import toast from "react-hot-toast";
 import { generateTrackingNumber } from "@/lib/generateTracking";
 import { createDoctorProfile, updateDoctorProfile } from "@/actions/onboarding";
-import { set } from "date-fns";
 import { useOnBoardingContext } from "@/context/context";
 import { Speciality } from "@prisma/client";
 
@@ -38,9 +37,13 @@ export default function BioDataForm({
     setTrackingNumber,
     doctorProfileId,
     setDoctorProfileId,
+    bioData,
+    savedDBData,
+    setBioData,
+    setSavedDBData,
   } = useOnBoardingContext();
+
   const [isLoading, setIsLoading] = useState(false);
-  const { bioData, savedDBData, setBioData } = useOnBoardingContext();
   const initialDOB = bioData.dob || savedDBData.dob;
   const [dob, setDOB] = useState<Date>(initialDOB);
 
@@ -81,53 +84,55 @@ export default function BioDataForm({
     }
     data.userId = userId as string;
     data.dob = dob;
-    data.trackingNumber = generateTrackingNumber();
+
+    if (!trackingNumber) {
+      const newTrackingNumber = generateTrackingNumber();
+      data.trackingNumber = newTrackingNumber;
+      setTrackingNumber(newTrackingNumber);
+    } else {
+      data.trackingNumber = trackingNumber;
+    }
 
     data.page = page;
-    console.log(data);
     try {
       if (formId) {
+        // Actualizar DoctorProfile existente
         const res = await updateDoctorProfile(formId, data);
         if (res && res.status === 201) {
           setIsLoading(false);
-          toast.success("Bio Data actualizado con exito");
-          setTrackingNumber(res.data?.trackingNumber ?? "");
+          toast.success("Datos actualizados con éxito");
           setDoctorProfileId(res.data?.id ?? "");
-
+          setSavedDBData(res.data);
           router.push(`/onboarding/${userId}?page=${nextPage}`);
         } else {
           setIsLoading(false);
-          toast.error("Error al crear perfil de doctor");
+          toast.error("Error al actualizar el perfil");
         }
       } else {
+        // Crear nuevo DoctorProfile
         const res = await createDoctorProfile(data);
-        setBioData(data);
         if (res.status === 201) {
           setIsLoading(false);
-          toast.success("Perfil de Doctor creado con exito");
-          setTrackingNumber(res.data?.trackingNumber ?? "");
+          toast.success("Perfil creado con éxito");
           setDoctorProfileId(res.data?.id ?? "");
-
-          // const savedData: BioDataFormProps = {
-          //   firstName: data?.firstName ?? "",
-          //   lastName: data?.lastName ?? "",
-          //   rut: data?.rut ?? "",
-          //   dob: data?.dob!,
-          //   gender: data?.gender ?? "",
-          //   page: data?.page ?? "",
-          //   userId: data?.userId,
-          //   trackingNumber: data?.trackingNumber ?? "",
-          // };
-          // setInitialData(savedData);
+          setSavedDBData(res.data);
+          router.push(`/onboarding/${userId}?page=${nextPage}`);
+        } else if (res.status === 200 && res.data) {
+          // Perfil ya existe
+          setIsLoading(false);
+          toast.success("Perfil existente encontrado");
+          setDoctorProfileId(res.data?.id ?? "");
+          setSavedDBData(res.data);
           router.push(`/onboarding/${userId}?page=${nextPage}`);
         } else {
           setIsLoading(false);
-          toast.error("Error al crear perfil de doctor");
+          toast.error("Error al crear el perfil");
         }
       }
     } catch (error) {
       setIsLoading(false);
       console.log(error);
+      toast.error("Ocurrió un error inesperado");
     }
   }
   return (

@@ -10,7 +10,7 @@ import DoctorServiceSettings from "@/components/Dashboard/Doctor/DoctorServiceSe
 export default async function page() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  const profile = await getDoctorProfileById(user?.id);
+  const profile = await getDoctorProfileById();
   return (
     <div className="max-w-5xl mx-auto w-full px-6 py-6">
       <h2 className="pb-4 scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-4xl">

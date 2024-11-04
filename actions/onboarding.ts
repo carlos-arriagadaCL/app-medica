@@ -1,54 +1,76 @@
 "use server";
 
 import WelcomeEmail from "@/components/Emails/welcome-email";
+import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { Resend } from "resend";
 
 export async function createDoctorProfile(formData: any) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const {
-    dob,
-    firstName,
-    gender,
-    lastName,
-    rut,
-    page,
-    trackingNumber,
-    userId,
-  } = formData;
+  const { dob, firstName, gender, lastName, rut, page, trackingNumber } =
+    formData;
+
+  const session = await getServerSession(authOptions);
+  console.log("Sesión:", session);
+  console.log("session.user.id:", session?.user?.id);
+
+  if (!session || !session.user) {
+    console.log("No se pudo obtener la sesión o el usuario.");
+    return {
+      data: null,
+      status: 401,
+      error: "No autorizado",
+    };
+  }
+
+  const userId = session.user.id;
+
   try {
-    const newProfile = await prismaClient.doctorProfile.create({
-      data: {
-        dob,
-        firstName,
-        gender,
-        lastName,
-        rut,
-        page,
-        trackingNumber,
-        userId,
-      },
+    const existingProfile = await prismaClient.doctorProfile.findUnique({
+      where: { userId },
     });
 
-    return {
-      data: newProfile,
-      status: 201,
-      error: null,
-    };
+    if (existingProfile) {
+      return {
+        data: existingProfile,
+        status: 200,
+        error: null,
+        message: "El perfil ya existe.",
+      };
+    } else {
+      const newProfile = await prismaClient.doctorProfile.create({
+        data: {
+          dob,
+          firstName,
+          gender,
+          lastName,
+          rut,
+          page,
+          trackingNumber,
+          userId,
+        },
+      });
+      return {
+        data: newProfile,
+        status: 201,
+        error: null,
+      };
+    }
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear el DoctorProfile:", error);
     return {
       data: null,
       status: 500,
-      error: "Algo salio mal",
+      error: "Algo salió mal al crear el perfil del doctor.",
     };
   }
 }
 
 export async function createAvailability(data: any) {
   try {
-    const newAvailability = await prismaClient.doctorProfile.create({
-      data});
+    const newAvailability = await prismaClient.availability.create({
+      data,
+    });
 
     return newAvailability;
   } catch (error) {
@@ -76,18 +98,29 @@ export async function updateDoctorProfile(id: string | undefined, data: any) {
         error: null,
       };
     } catch (error) {
+      console.error("Error al actualizar el perfil del doctor:", error);
       return {
         data: null,
         status: 500,
-        error: "Algo salio mal",
+        error: "Algo salió mal",
       };
     }
+  } else {
+    return {
+      data: null,
+      status: 400,
+      error: "ID es indefinido",
+    };
   }
 }
-export async function updateAvailabilityById(id: string | undefined, data: any) {
+
+export async function updateAvailabilityById(
+  id: string | undefined,
+  data: any
+) {
   if (id) {
     try {
-      const updatedAva = await prismaClient.doctorProfile.update({
+      const updatedAva = await prismaClient.availability.update({
         where: {
           id,
         },
@@ -187,28 +220,38 @@ export async function completeProfile(id: string | undefined, data: any) {
   }
 }
 
-export async function getDoctorProfileById(userId: string | undefined) {
-  if (userId) {
-    try {
-      const profile = await prismaClient.doctorProfile.findUnique({
-        where: {
-          userId,
-        },
-        include: {
-          availability: true,
-        }
-      });
-      return {
-        data: profile,
-        status: 200,
-        error: null,
-      };
-    } catch (error) {
-      return {
-        data: null,
-        status: 500,
-        error: "Profile was not fetched",
-      };
-    }
+export async function getDoctorProfileById() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return {
+      data: null,
+      status: 401,
+      error: "No autorizado",
+    };
+  }
+
+  const userId = session.user.id;
+
+  try {
+    const profile = await prismaClient.doctorProfile.findUnique({
+      where: {
+        userId,
+      },
+      include: {
+        availability: true,
+      },
+    });
+    return {
+      data: profile,
+      status: 200,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      data: null,
+      status: 500,
+      error: "Error al obtener el perfil",
+    };
   }
 }

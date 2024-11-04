@@ -112,9 +112,9 @@ export default function EducationInfo({
             className="col-span-full sm:col-span-1"
           />
           <SelectInput
-            label="Seleccione sus principales especializaciones"
+            label="Seleccione su especialidad"
             register={register}
-            name="specialization"
+            name="primarySpecialization"
             className="col-span-full sm:col-span-1"
             options={allSpecialties}
           />

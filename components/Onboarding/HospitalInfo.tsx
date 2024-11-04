@@ -1,12 +1,10 @@
 "use client";
 import SubmitButton from "../FormInputs/SubmitButton";
 import { useState } from "react";
-import { BioDataFormProps, HospitalFormProps } from "@/types/types";
+import { HospitalFormProps } from "@/types/types";
 import { useForm } from "react-hook-form";
 import TextInput from "../FormInputs/TextInput";
 import { useRouter } from "next/navigation";
-import { DatePickerInput } from "../FormInputs/DatePickerInput";
-import RadioInput from "../FormInputs/RadioInput";
 import toast from "react-hot-toast";
 import ArrayItemsInput from "../FormInputs/ArrayInput";
 import ShadSelectInput from "../FormInputs/ShadSelectInput";
@@ -43,6 +41,7 @@ export default function HospitalForm({
     hospitalData.languagesSpoken || savedDBData.languagesSpoken;
   const initialInsuranceStatus =
     hospitalData.insuranceAccepted || savedDBData.insuranceAccepted;
+
   const [services, setServices] = useState(initialServices);
   const [languages, setLanguages] = useState(initialLanguages);
   const [insuranceAccepted, setInsuranceAccepted] = useState(
@@ -68,6 +67,7 @@ export default function HospitalForm({
       hospitalHoursOfOperation:
         hospitalData.hospitalHoursOfOperation ||
         savedDBData.hospitalHoursOfOperation,
+      hourlyWage: hospitalData.hourlyWage || savedDBData.hourlyWage,
       page: hospitalData.page || savedDBData.page,
     },
   });
@@ -77,8 +77,10 @@ export default function HospitalForm({
     data.page = page;
     data.insuranceAccepted = insuranceAccepted;
     data.hospitalHoursOfOperation = Number(data.hospitalHoursOfOperation);
+    data.hourlyWage = Number(data.hourlyWage);
     data.servicesOffered = services;
-    console.log(data);
+    data.languagesSpoken = languages;
+    console.log("Tipo de hourlyWage después de conversión:", typeof data.hourlyWage); // Debería mostrar "number"
     try {
       const res = await updateDoctorProfile(formId, data);
       setHospitalData(data);
@@ -165,6 +167,7 @@ export default function HospitalForm({
             label="Hospital Hours of Operation"
             register={register}
             name="hospitalHoursOfOperation"
+            type="number"
             errors={errors}
             placeholder="Enter hospital hours of operation"
             className="col-span-full sm:col-span-1"

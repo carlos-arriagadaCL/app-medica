@@ -31,7 +31,7 @@ export const docsConfig: DocsConfig = {
     {
       title: "Servicios",
       href: "/services",
-    },
+    }
   ],
   sidebarNav: [
     {

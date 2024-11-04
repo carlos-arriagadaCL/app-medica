@@ -23,7 +23,9 @@ export default function ProfileInfoForm({
 }: StepFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { profileData, savedDBData, setProfileData } = useOnBoardingContext();
+  const { profileData, savedDBData, setProfileData, setSavedDBData } =
+    useOnBoardingContext();
+
   const initialExpiryDate =
     profileData.medicalLicenseExpiry || savedDBData.medicalLicenseExpiry;
   const initialProfileImage =
@@ -61,23 +63,29 @@ export default function ProfileInfoForm({
     data.page = page;
     data.yearsOfExperience = Number(data.yearsOfExperience);
     data.profilePicture = profileImage;
-    console.log(data);
+    console.log("Form ID utilizado:", formId ? formId : savedDBData.id);
+    console.log("Datos enviados:", data);
     try {
       const res = await updateDoctorProfile(
         `${formId ? formId : savedDBData.id}`,
         data
       );
-      setProfileData(data);
+      console.log("Respuesta del servidor:", res);
       if (res?.status === 201) {
         setIsLoading(false);
-        toast.success("Education Info Updated Successfully");
+        toast.success("Información de perfil actualizada con éxito");
+        setProfileData(data);
+        setSavedDBData(res.data);
         router.push(`/onboarding/${userId}?page=${nextPage}`);
       } else {
         setIsLoading(false);
-        toast.error("Algo salio mal");
+        toast.error("Algo salió mal");
+        console.error("Error en la respuesta del servidor:", res);
       }
     } catch (error) {
       setIsLoading(false);
+      console.error("Error al actualizar el perfil:", error);
+      toast.error("Ocurrió un error inesperado");
     }
   }
   return (
@@ -99,10 +107,10 @@ export default function ProfileInfoForm({
             placeholder="Ingrese licencia medica"
           />
           <TextInput
-            id="yearsExperience"
+            id="yearsOfExperience"
             label="Años de experiencia"
             register={register}
-            name="yearsExperience"
+            name="yearsOfExperience"
             type="number"
             errors={errors}
             placeholder="Ingrese años de experiencia"

@@ -154,7 +154,7 @@ export default function Sidebar({ session }: { session: Session }) {
         </div>
         <div className="mt-auto p-4">
           <Button size="sm" className="w-full">
-            <Power className="w- h-4 mr-1" />
+            <Power className="w- h-4 mr-1" onClick={() => handleLogout()} />
             Logout
           </Button>
         </div>

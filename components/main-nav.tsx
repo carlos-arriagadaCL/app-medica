@@ -23,7 +23,7 @@ export function MainNav() {
           return (
             <Link
               key={i}
-              href="/docs"
+              href="#"
               className={cn(
                 "transition-colors hover:text-foreground/80",
                 pathname === item.href
@@ -35,6 +35,12 @@ export function MainNav() {
             </Link>
           );
         })}
+        <Link
+          href="/onboarding/resume"
+          className={cn("transition-colors text-foreground/60 hover:text-foreground/80")}
+        >
+          Retomar Postulacion
+        </Link>
       </nav>
     </div>
   );
